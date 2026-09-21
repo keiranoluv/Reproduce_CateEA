@@ -16,5 +16,6 @@ CUDA_VISIBLE_DEVICES=0 python3 -u src/myrun.py \
     --img_dim 400 \
     --attr_dim 400 \
     --w_name \
-    --w_char
+    --w_char \
+    --save_path "$3"
 
