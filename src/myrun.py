@@ -613,6 +613,22 @@ class CateEA:
 
             del joint_emb, gph_emb, img_emb, rel_emb, att_emb, name_emb, char_emb
 
+        
+        save_path = self.args.save_path
+        os.makedirs(save_path, exist_ok=True)
+
+        torch.save(
+            {
+                "multimodal_encoder": self.multimodal_encoder.state_dict(),
+                "multi_loss_layer": self.multi_loss_layer.state_dict(),
+                "align_multi_loss_layer": self.align_multi_loss_layer.state_dict(),
+                "classifier": classifier.state_dict(),
+                "optimizer": self.optimizer.state_dict(),
+                "args": vars(self.args),
+            },
+            os.path.join(save_path, "cateea_checkpoint.pt")
+        )
+
         print("[optimization finished!]")
         print("[total time elapsed: {:.4f} s]".format(time.time() - t_total))
 
