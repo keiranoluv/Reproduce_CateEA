@@ -1,0 +1,171 @@
+[epoch 49] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.6994 0.947  0.9905], mr = 3.742, mrr = 0.786, time = 1.8803 s 
+r2l: acc of top [1, 10, 50] = [0.7015 0.9475 0.9916], mr = 3.935, mrr = 0.788, time = 1.8805 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.6932 0.9438 0.9886], mr = 4.286, mrr = 0.781, time = 1.8338 s 
+r2l: acc of top [1, 10, 50] = [0.6932 0.942  0.9897], mr = 4.632, mrr = 0.782, time = 1.8340 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_best.pt
+[new best checkpoint] epoch=49, H@1 avg=0.7005, l2r=0.6994, r2l=0.7015
+[epoch 99] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7133 0.9483 0.992 ], mr = 3.946, mrr = 0.797, time = 1.8234 s 
+r2l: acc of top [1, 10, 50] = [0.7179 0.9498 0.9914], mr = 3.948, mrr = 0.801, time = 1.8236 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7108 0.9464 0.9903], mr = 4.247, mrr = 0.794, time = 1.8250 s 
+r2l: acc of top [1, 10, 50] = [0.7142 0.9488 0.9904], mr = 4.327, mrr = 0.798, time = 1.8252 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_best.pt
+[new best checkpoint] epoch=99, H@1 avg=0.7156, l2r=0.7133, r2l=0.7179
+[epoch 149] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7239 0.953  0.992 ], mr = 3.777, mrr = 0.807, time = 1.8218 s 
+r2l: acc of top [1, 10, 50] = [0.727  0.9535 0.992 ], mr = 3.915, mrr = 0.809, time = 1.8220 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.723  0.9524 0.9918], mr = 3.769, mrr = 0.806, time = 1.8280 s 
+r2l: acc of top [1, 10, 50] = [0.7247 0.9534 0.9922], mr = 3.960, mrr = 0.807, time = 1.8282 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_best.pt
+[new best checkpoint] epoch=149, H@1 avg=0.7255, l2r=0.7239, r2l=0.7270
+[epoch 199] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7318 0.953  0.992 ], mr = 3.797, mrr = 0.812, time = 1.8329 s 
+r2l: acc of top [1, 10, 50] = [0.7292 0.9554 0.9917], mr = 3.923, mrr = 0.811, time = 1.8331 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7299 0.953  0.9917], mr = 3.836, mrr = 0.811, time = 1.8126 s 
+r2l: acc of top [1, 10, 50] = [0.7279 0.9558 0.9915], mr = 3.998, mrr = 0.809, time = 1.8127 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_best.pt
+[new best checkpoint] epoch=199, H@1 avg=0.7305, l2r=0.7318, r2l=0.7292
+[epoch 249] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7062 0.9477 0.9887], mr = 4.412, mrr = 0.795, time = 15.1907 s 
+r2l: acc of top [1, 10, 50] = [0.706  0.9496 0.9899], mr = 4.420, mrr = 0.795, time = 15.1909 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7063 0.949  0.9892], mr = 4.320, mrr = 0.795, time = 46.1576 s 
+r2l: acc of top [1, 10, 50] = [0.705  0.9507 0.9897], mr = 4.428, mrr = 0.795, time = 46.1578 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[best checkpoint] epoch=199, H@1 avg=0.7305
+[epoch 299] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7407 0.9588 0.9926], mr = 3.448, mrr = 0.820, time = 21.9069 s 
+r2l: acc of top [1, 10, 50] = [0.7417 0.9595 0.9932], mr = 3.462, mrr = 0.822, time = 21.9071 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.741  0.9581 0.9927], mr = 3.561, mrr = 0.820, time = 22.0691 s 
+r2l: acc of top [1, 10, 50] = [0.7417 0.9597 0.9931], mr = 3.564, mrr = 0.822, time = 22.0693 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_best.pt
+[new best checkpoint] epoch=299, H@1 avg=0.7412, l2r=0.7407, r2l=0.7417
+[epoch 349] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7472 0.963  0.9936], mr = 3.342, mrr = 0.826, time = 42.6525 s 
+r2l: acc of top [1, 10, 50] = [0.7471 0.9632 0.9939], mr = 3.276, mrr = 0.827, time = 42.6527 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7474 0.9627 0.9936], mr = 3.426, mrr = 0.826, time = 28.0621 s 
+r2l: acc of top [1, 10, 50] = [0.7481 0.9631 0.994 ], mr = 3.347, mrr = 0.827, time = 28.0623 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_best.pt
+[new best checkpoint] epoch=349, H@1 avg=0.7472, l2r=0.7472, r2l=0.7471
+[epoch 399] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.757  0.9629 0.9927], mr = 3.375, mrr = 0.832, time = 36.6920 s 
+r2l: acc of top [1, 10, 50] = [0.7551 0.9643 0.993 ], mr = 3.373, mrr = 0.833, time = 36.6922 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7569 0.9625 0.9928], mr = 3.512, mrr = 0.832, time = 24.8146 s 
+r2l: acc of top [1, 10, 50] = [0.7547 0.9631 0.9934], mr = 3.448, mrr = 0.832, time = 24.8148 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_best.pt
+[new best checkpoint] epoch=399, H@1 avg=0.7560, l2r=0.7570, r2l=0.7551
+[epoch 449] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7217 0.9542 0.9893], mr = 4.319, mrr = 0.807, time = 47.3431 s 
+r2l: acc of top [1, 10, 50] = [0.722  0.9564 0.989 ], mr = 4.365, mrr = 0.808, time = 47.3433 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7234 0.9541 0.9897], mr = 4.219, mrr = 0.808, time = 37.6853 s 
+r2l: acc of top [1, 10, 50] = [0.7226 0.9553 0.989 ], mr = 4.371, mrr = 0.808, time = 37.6855 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[best checkpoint] epoch=399, H@1 avg=0.7560
+[epoch 499] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7643 0.967  0.9945], mr = 2.932, mrr = 0.838, time = 1.8270 s 
+r2l: acc of top [1, 10, 50] = [0.7631 0.9674 0.995 ], mr = 3.004, mrr = 0.839, time = 1.8271 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7619 0.9671 0.9946], mr = 3.070, mrr = 0.837, time = 1.8328 s 
+r2l: acc of top [1, 10, 50] = [0.7619 0.9665 0.9947], mr = 3.365, mrr = 0.837, time = 1.8330 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_best.pt
+[new best checkpoint] epoch=499, H@1 avg=0.7637, l2r=0.7643, r2l=0.7631
+[epoch 549] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7673 0.9673 0.9946], mr = 2.957, mrr = 0.842, time = 1.8310 s 
+r2l: acc of top [1, 10, 50] = [0.7669 0.9674 0.9946], mr = 2.948, mrr = 0.842, time = 1.8311 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7677 0.9671 0.9943], mr = 3.037, mrr = 0.841, time = 1.8229 s 
+r2l: acc of top [1, 10, 50] = [0.768  0.9673 0.9947], mr = 3.055, mrr = 0.842, time = 1.8231 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_best.pt
+[new best checkpoint] epoch=549, H@1 avg=0.7671, l2r=0.7673, r2l=0.7669
+[epoch 599] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7669 0.9667 0.9942], mr = 3.185, mrr = 0.840, time = 1.8401 s 
+r2l: acc of top [1, 10, 50] = [0.7684 0.9672 0.9944], mr = 3.445, mrr = 0.842, time = 1.8403 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7655 0.9667 0.9937], mr = 3.400, mrr = 0.839, time = 1.8302 s 
+r2l: acc of top [1, 10, 50] = [0.7673 0.967  0.9941], mr = 3.556, mrr = 0.841, time = 1.8304 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_best.pt
+[new best checkpoint] epoch=599, H@1 avg=0.7677, l2r=0.7669, r2l=0.7684
+[epoch 649] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7689 0.9662 0.9936], mr = 3.395, mrr = 0.842, time = 1.8340 s 
+r2l: acc of top [1, 10, 50] = [0.7702 0.9676 0.9943], mr = 3.480, mrr = 0.843, time = 1.8341 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7669 0.9661 0.9929], mr = 3.667, mrr = 0.840, time = 1.8269 s 
+r2l: acc of top [1, 10, 50] = [0.7683 0.9676 0.9935], mr = 3.471, mrr = 0.841, time = 1.8270 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_best.pt
+[new best checkpoint] epoch=649, H@1 avg=0.7695, l2r=0.7689, r2l=0.7702
+[epoch 699] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7685 0.9648 0.9922], mr = 3.610, mrr = 0.840, time = 1.8316 s 
+r2l: acc of top [1, 10, 50] = [0.7689 0.9651 0.993 ], mr = 3.776, mrr = 0.841, time = 1.8318 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7658 0.9619 0.9912], mr = 4.455, mrr = 0.838, time = 1.8180 s 
+r2l: acc of top [1, 10, 50] = [0.7662 0.9628 0.9924], mr = 4.410, mrr = 0.839, time = 1.8182 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[best checkpoint] epoch=649, H@1 avg=0.7695
+[epoch 749] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7677 0.9606 0.991 ], mr = 4.049, mrr = 0.839, time = 1.8303 s 
+r2l: acc of top [1, 10, 50] = [0.768  0.9625 0.992 ], mr = 4.360, mrr = 0.839, time = 1.8305 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7641 0.959  0.9894], mr = 5.041, mrr = 0.836, time = 1.8217 s 
+r2l: acc of top [1, 10, 50] = [0.7649 0.9605 0.9904], mr = 4.348, mrr = 0.837, time = 1.8219 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[best checkpoint] epoch=649, H@1 avg=0.7695
+[epoch 799] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7684 0.9611 0.99  ], mr = 4.136, mrr = 0.839, time = 1.8304 s 
+r2l: acc of top [1, 10, 50] = [0.7649 0.9604 0.9913], mr = 4.596, mrr = 0.837, time = 1.8306 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7666 0.9602 0.9897], mr = 4.366, mrr = 0.838, time = 1.8232 s 
+r2l: acc of top [1, 10, 50] = [0.7638 0.9615 0.9907], mr = 4.511, mrr = 0.837, time = 1.8234 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[best checkpoint] epoch=649, H@1 avg=0.7695
+[epoch 849] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7665 0.9597 0.9901], mr = 4.432, mrr = 0.837, time = 1.8294 s 
+r2l: acc of top [1, 10, 50] = [0.7667 0.9588 0.9903], mr = 4.791, mrr = 0.837, time = 1.8296 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.763  0.9562 0.988 ], mr = 5.442, mrr = 0.834, time = 1.8264 s 
+r2l: acc of top [1, 10, 50] = [0.762  0.9572 0.9892], mr = 5.512, mrr = 0.834, time = 1.8266 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[best checkpoint] epoch=649, H@1 avg=0.7695
+[epoch 899] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.764  0.9576 0.989 ], mr = 5.288, mrr = 0.835, time = 1.8307 s 
+r2l: acc of top [1, 10, 50] = [0.7646 0.9578 0.9896], mr = 5.589, mrr = 0.836, time = 1.8309 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7614 0.9556 0.9875], mr = 5.410, mrr = 0.833, time = 1.8250 s 
+r2l: acc of top [1, 10, 50] = [0.7623 0.9573 0.9891], mr = 5.839, mrr = 0.834, time = 1.8251 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[best checkpoint] epoch=649, H@1 avg=0.7695
+[epoch 949] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7635 0.9567 0.9877], mr = 5.998, mrr = 0.834, time = 1.8223 s 
+r2l: acc of top [1, 10, 50] = [0.7668 0.957  0.99  ], mr = 5.728, mrr = 0.837, time = 1.8225 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7617 0.9553 0.9876], mr = 6.134, mrr = 0.833, time = 1.8384 s 
+r2l: acc of top [1, 10, 50] = [0.7646 0.9573 0.989 ], mr = 6.573, mrr = 0.835, time = 1.8386 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[best checkpoint] epoch=649, H@1 avg=0.7695
+[epoch 999] checkpoint!
+l2r: acc of top [1, 10, 50] = [0.7638 0.9548 0.9875], mr = 6.293, mrr = 0.835, time = 2.0137 s 
+r2l: acc of top [1, 10, 50] = [0.7647 0.9561 0.9886], mr = 5.913, mrr = 0.836, time = 2.0139 s 
+------------------weighted-------------
+l2r: acc of top [1, 10, 50] = [0.7606 0.9529 0.9854], mr = 7.621, mrr = 0.832, time = 2.0159 s 
+r2l: acc of top [1, 10, 50] = [0.7614 0.9545 0.9865], mr = 7.568, mrr = 0.833, time = 2.0161 s 
+[checkpoint saved] save_pkl/trackA_v3_fr_en_noniter_woSF/cateea_checkpoint_latest.pt
+[best checkpoint] epoch=649, H@1 avg=0.7695
