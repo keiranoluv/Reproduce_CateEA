@@ -104,6 +104,9 @@ class CateEA:
         self.align_multi_loss_layer = None
         self.fusion = None  # fusion module
         self.classifier = None
+        self.best_h1 = -1.0
+        self.best_epoch = -1
+
 
         self.parser = argparse.ArgumentParser()
         self.args = self.parse_options(self.parser)
@@ -196,6 +199,26 @@ class CateEA:
         torch.manual_seed(seed)
         if cuda and torch.cuda.is_available():
             torch.cuda.manual_seed(seed)
+
+    def save_checkpoint(self, classifier, epoch, metrics, filename):
+        save_path = self.args.save_path
+        os.makedirs(save_path, exist_ok=True)
+
+        checkpoint = {
+            "epoch": epoch,
+            "multimodal_encoder": self.multimodal_encoder.state_dict(),
+            "multi_loss_layer": self.multi_loss_layer.state_dict(),
+            "align_multi_loss_layer": self.align_multi_loss_layer.state_dict(),
+            "classifier": classifier.state_dict(),
+            "optimizer": self.optimizer.state_dict(),
+            "metrics": metrics,
+            "args": vars(self.args),
+        }
+
+        ckpt_path = os.path.join(save_path, filename)
+        torch.save(checkpoint, ckpt_path)
+
+        print(f"[checkpoint saved] {ckpt_path}")
 
     def visual_pivot_induction(self, mode="img"):
         # if unsupervised? use image to obtain links
@@ -604,30 +627,57 @@ class CateEA:
             # Test
             if (epoch + 1) % self.args.check_point == 0:
                 print("\n[epoch {:d}] checkpoint!".format(epoch))
+
                 self.classifier = classifier
-                self.test(epoch)
-                self.weighted_test(epoch)
+
+                test_metrics = self.test(epoch)
+                weighted_metrics = self.weighted_test(epoch)
+
+                metrics = {
+                    "test": test_metrics,
+                    "weighted_test": weighted_metrics,
+                }
+
+                # Always save latest evaluated checkpoint
+                self.save_checkpoint(
+                    classifier=classifier,
+                    epoch=epoch,
+                    metrics=metrics,
+                    filename="cateea_checkpoint_latest.pt",
+                )
+
+                # Use normal test average H@1 as selection criterion
+                current_h1 = test_metrics["h1_avg"]
+
+                if current_h1 > self.best_h1:
+                    self.best_h1 = current_h1
+                    self.best_epoch = epoch
+
+                    self.save_checkpoint(
+                        classifier=classifier,
+                        epoch=epoch,
+                        metrics=metrics,
+                        filename="cateea_checkpoint_best.pt",
+                    )
+
+                    print(
+                        "[new best checkpoint] "
+                        f"epoch={epoch}, "
+                        f"H@1 avg={current_h1:.4f}, "
+                        f"l2r={test_metrics['h1_l2r']:.4f}, "
+                        f"r2l={test_metrics['h1_r2l']:.4f}"
+                    )
+                else:
+                    print(
+                        "[best checkpoint] "
+                        f"epoch={self.best_epoch}, "
+                        f"H@1 avg={self.best_h1:.4f}"
+                    )
 
             if self.args.cuda and torch.cuda.is_available():
                 torch.cuda.empty_cache()
 
             del joint_emb, gph_emb, img_emb, rel_emb, att_emb, name_emb, char_emb
-
-        
-        save_path = self.args.save_path
-        os.makedirs(save_path, exist_ok=True)
-
-        torch.save(
-            {
-                "multimodal_encoder": self.multimodal_encoder.state_dict(),
-                "multi_loss_layer": self.multi_loss_layer.state_dict(),
-                "align_multi_loss_layer": self.align_multi_loss_layer.state_dict(),
-                "classifier": classifier.state_dict(),
-                "optimizer": self.optimizer.state_dict(),
-                "args": vars(self.args),
-            },
-            os.path.join(save_path, "cateea_checkpoint.pt")
-        )
 
         print("[optimization finished!]")
         print("[total time elapsed: {:.4f} s]".format(time.time() - t_total))
@@ -739,7 +789,23 @@ class CateEA:
             print("r2l: acc of top {} = {}, mr = {:.3f}, mrr = {:.3f}, time = {:.4f} s \n".format(top_k, acc_r2l,
                                                                                                   mean_r2l, mrr_r2l,
                                                                                                   time.time() - t_test))
-            
+        return {
+            "h1_l2r": float(acc_l2r[0]),
+            "h10_l2r": float(acc_l2r[1]),
+            "h50_l2r": float(acc_l2r[2]),
+            "mr_l2r": float(mean_l2r),
+            "mrr_l2r": float(mrr_l2r),
+
+            "h1_r2l": float(acc_r2l[0]),
+            "h10_r2l": float(acc_r2l[1]),
+            "h50_r2l": float(acc_r2l[2]),
+            "mr_r2l": float(mean_r2l),
+            "mrr_r2l": float(mrr_r2l),
+
+            "h1_avg": float((acc_l2r[0] + acc_r2l[0]) / 2.0),
+            "mrr_avg": float((mrr_l2r + mrr_r2l) / 2.0),
+        }
+
     def weighted_test(self, epoch):
         with torch.no_grad():
             t_test = time.time()
@@ -874,6 +940,23 @@ class CateEA:
                                                                                                   mean_r2l, mrr_r2l,
                                                                                                   time.time() - t_test))
             print("---------------------------------------")
+
+            return {
+                "h1_l2r": float(acc_l2r[0]),
+                "h10_l2r": float(acc_l2r[1]),
+                "h50_l2r": float(acc_l2r[2]),
+                "mr_l2r": float(mean_l2r),
+                "mrr_l2r": float(mrr_l2r),
+
+                "h1_r2l": float(acc_r2l[0]),
+                "h10_r2l": float(acc_r2l[1]),
+                "h50_r2l": float(acc_r2l[2]),
+                "mr_r2l": float(mean_r2l),
+                "mrr_r2l": float(mrr_r2l),
+
+                "h1_avg": float((acc_l2r[0] + acc_r2l[0]) / 2.0),
+                "mrr_avg": float((mrr_l2r + mrr_r2l) / 2.0),
+            }
 
 if __name__ == "__main__":
     model = CateEA()
