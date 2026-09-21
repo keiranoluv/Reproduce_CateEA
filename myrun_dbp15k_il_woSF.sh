@@ -17,6 +17,6 @@ CUDA_VISIBLE_DEVICES=0 python3 -u src/myrun.py \
     --structure_encoder "gat" \
     --img_dim 400 \
     --attr_dim 400 \
-    --name_dim 400 \
-    --char_dim 400 \
-    --save_path "save/${1}_iter_wSF"
+    --w_name \
+    --w_char \
+    --save_path "save/${1}_iter_woSF"
