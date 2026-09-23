@@ -110,3 +110,10 @@ CUDA_VISIBLE_DEVICES=0 python3 -u src/myrun.py \
     --save_path save/fr_en_noniter_wSF \
     2>&1 | tee fr_en_noniter_wSF.log
 ```
+
+```
+mkdir -p logs && bash run_all_iter.sh 2>&1 | tee logs/run_all_iter.log
+
+# Xem tới đâu rồi
+grep -E "START:|PASS :|FAIL :" logs/run_all_iter.log
+```

@@ -4,7 +4,7 @@ CUDA_VISIBLE_DEVICES=$1 python3 -u src/myrun.py \
     --lr .0005 \
     --epochs 1000 \
     --hidden_units "300,300,300" \
-    --check_point 50  \
+    --check_point 50 \
     --bsize 512 \
     --semi_learn_step 5 \
     --csls \
@@ -16,4 +16,5 @@ CUDA_VISIBLE_DEVICES=$1 python3 -u src/myrun.py \
     --img_dim 300 \
     --attr_dim 300 \
     --w_name \
-    --w_char
+    --w_char \
+    --save_path "save_pkl/${3}_noniter_${4}"
