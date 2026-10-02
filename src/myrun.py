@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from __future__ import division
 from __future__ import print_function
 
+import wandb
 import argparse
 from pprint import pprint
 
@@ -189,6 +190,48 @@ class CateEA:
         parser.add_argument("--zoom", type=float, default=0.1, help="narrow the range of losses")
         parser.add_argument("--reduction", type=str, default="mean", help="[sum|mean]")
         parser.add_argument("--save_path", type=str, default="save_pkl", help="save path")
+
+        parser.add_argument(
+            "--wandb",
+            action="store_true",
+            default=False,
+            help="enable Weights & Biases logging",
+        )
+
+        parser.add_argument(
+            "--wandb_project",
+            type=str,
+            default="CateEA-Reproduction",
+            help="W&B project name",
+        )
+
+        parser.add_argument(
+            "--wandb_entity",
+            type=str,
+            default=None,
+            help="W&B entity/user/team",
+        )
+
+        parser.add_argument(
+            "--wandb_run_name",
+            type=str,
+            default=None,
+            help="W&B run name",
+        )
+
+        parser.add_argument(
+            "--wandb_group",
+            type=str,
+            default=None,
+            help="W&B run group",
+        )
+
+        parser.add_argument(
+            "--wandb_tags",
+            nargs="*",
+            default=None,
+            help="W&B tags",
+        )
 
         return parser.parse_args()
 
@@ -444,6 +487,18 @@ class CateEA:
         # print args
         pprint(self.args)
 
+
+        if self.args.wandb:
+            wandb.init(
+                project=self.args.wandb_project,
+                entity=self.args.wandb_entity,
+                name=self.args.wandb_run_name,
+                group=self.args.wandb_group,
+                tags=self.args.wandb_tags,
+                config=vars(self.args),
+            )
+
+
         # Train
         print("[start training...] ")
         t_total = time.time()
@@ -570,6 +625,13 @@ class CateEA:
             self.optimizer.step()
 
             print("[epoch {:d}] loss_all: {:f}, classification loss: {:f} time: {:.4f} s".format(epoch, loss_sum_all, cls_loss_all, time.time() - t_epoch))
+            
+            epoch_metrics = {
+                "train/loss": loss_sum_all,
+                "train/classification_loss": cls_loss_all,
+                "train/epoch_time": time.time() - t_epoch,
+                "train/learning_rate": self.optimizer.param_groups[0]["lr"],
+            }
 
             # semi-supervised learning
             if epoch >= self.args.il_start and (epoch + 1) % self.args.semi_learn_step == 0 and self.args.il:
@@ -638,6 +700,46 @@ class CateEA:
                     "weighted_test": weighted_metrics,
                 }
 
+
+                epoch_metrics.update({
+                    # Normal evaluation
+                    "test/h1_l2r": test_metrics["h1_l2r"],
+                    "test/h10_l2r": test_metrics["h10_l2r"],
+                    "test/h50_l2r": test_metrics["h50_l2r"],
+                    "test/mr_l2r": test_metrics["mr_l2r"],
+                    "test/mrr_l2r": test_metrics["mrr_l2r"],
+
+                    "test/h1_r2l": test_metrics["h1_r2l"],
+                    "test/h10_r2l": test_metrics["h10_r2l"],
+                    "test/h50_r2l": test_metrics["h50_r2l"],
+                    "test/mr_r2l": test_metrics["mr_r2l"],
+                    "test/mrr_r2l": test_metrics["mrr_r2l"],
+
+                    "test/h1_avg": test_metrics["h1_avg"],
+                    "test/mrr_avg": test_metrics["mrr_avg"],
+
+                    # Category-aware / weighted evaluation
+                    "weighted/h1_l2r": weighted_metrics["h1_l2r"],
+                    "weighted/h10_l2r": weighted_metrics["h10_l2r"],
+                    "weighted/h50_l2r": weighted_metrics["h50_l2r"],
+                    "weighted/mrr_l2r": weighted_metrics["mrr_l2r"],
+
+                    "weighted/h1_r2l": weighted_metrics["h1_r2l"],
+                    "weighted/h10_r2l": weighted_metrics["h10_r2l"],
+                    "weighted/h50_r2l": weighted_metrics["h50_r2l"],
+                    "weighted/mrr_r2l": weighted_metrics["mrr_r2l"],
+
+                    "weighted/h1_avg": weighted_metrics["h1_avg"],
+                    "weighted/mrr_avg": weighted_metrics["mrr_avg"],
+
+
+                    "test/h10_avg": test_metrics["h10_avg"],
+                    "weighted/h10_avg": weighted_metrics["h10_avg"],
+
+                    "test/h50_avg": test_metrics["h50_avg"],
+                    "weighted/h50_avg": weighted_metrics["h50_avg"], 
+                })
+
                 # Always save latest evaluated checkpoint
                 self.save_checkpoint(
                     classifier=classifier,
@@ -660,6 +762,17 @@ class CateEA:
                         filename="cateea_checkpoint_best.pt",
                     )
 
+                    if self.args.wandb:
+                        wandb.run.summary["best_epoch"] = epoch
+
+                        wandb.run.summary["best_test_h1_avg"] = test_metrics["h1_avg"]
+                        wandb.run.summary["best_test_h10_avg"] = test_metrics["h10_avg"]
+                        wandb.run.summary["best_test_mrr_avg"] = test_metrics["mrr_avg"]
+
+                        wandb.run.summary["weighted_h1_at_best_test"] = weighted_metrics["h1_avg"]
+                        wandb.run.summary["weighted_h10_at_best_test"] = weighted_metrics["h10_avg"]
+                        wandb.run.summary["weighted_mrr_at_best_test"] = weighted_metrics["mrr_avg"]
+
                     print(
                         "[new best checkpoint] "
                         f"epoch={epoch}, "
@@ -677,10 +790,16 @@ class CateEA:
             if self.args.cuda and torch.cuda.is_available():
                 torch.cuda.empty_cache()
 
+            if self.args.wandb:
+                wandb.log(epoch_metrics, step=epoch)
+
             del joint_emb, gph_emb, img_emb, rel_emb, att_emb, name_emb, char_emb
 
         print("[optimization finished!]")
         print("[total time elapsed: {:.4f} s]".format(time.time() - t_total))
+
+        if self.args.wandb:
+            wandb.finish()
 
     def test(self, epoch):
         with torch.no_grad():
@@ -803,6 +922,8 @@ class CateEA:
             "mrr_r2l": float(mrr_r2l),
 
             "h1_avg": float((acc_l2r[0] + acc_r2l[0]) / 2.0),
+            "h10_avg": float((acc_l2r[1] + acc_r2l[1]) / 2.0),
+            "h50_avg": float((acc_l2r[2] + acc_r2l[2]) / 2.0),
             "mrr_avg": float((mrr_l2r + mrr_r2l) / 2.0),
         }
 
@@ -955,6 +1076,8 @@ class CateEA:
                 "mrr_r2l": float(mrr_r2l),
 
                 "h1_avg": float((acc_l2r[0] + acc_r2l[0]) / 2.0),
+                "h10_avg": float((acc_l2r[1] + acc_r2l[1]) / 2.0),
+                "h50_avg": float((acc_l2r[2] + acc_r2l[2]) / 2.0),
                 "mrr_avg": float((mrr_l2r + mrr_r2l) / 2.0),
             }
 
