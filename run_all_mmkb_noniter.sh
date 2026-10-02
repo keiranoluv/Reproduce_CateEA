@@ -74,3 +74,5 @@ echo "ALL MMKB NON-ITER EXPERIMENTS COMPLETED"
 echo "FINISH TIME: $(date)"
 echo "TOTAL TIME : ${TOTAL}s"
 echo "=================================================="
+
+#Scripts nay dung de chay mode non-iterative cho cac tap du lieu MMKB
