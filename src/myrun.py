@@ -511,10 +511,6 @@ class CateEA:
         self.input_idx = torch.LongTensor(np.arange(self.ENT_NUM)).to(device)
 
         for epoch in range(self.args.epochs):
-
-            if epoch == epoch >= self.args.il_start:
-                self.optimizer = optim.AdamW(self.params, lr=self.args.lr / 5)
-
             t_epoch = time.time()
 
             self.multimodal_encoder.train()
@@ -790,6 +786,7 @@ class CateEA:
             if self.args.cuda and torch.cuda.is_available():
                 torch.cuda.empty_cache()
 
+            epoch_metrics["train/num_alignment_pairs"] = len(self.train_ill)
             if self.args.wandb:
                 wandb.log(epoch_metrics, step=epoch)
 
