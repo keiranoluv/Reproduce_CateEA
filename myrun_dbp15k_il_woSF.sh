@@ -13,10 +13,15 @@ CUDA_VISIBLE_DEVICES=0 python3 -u src/myrun.py \
     --csls_k 3 \
     --seed 42 \
     --tau 0.1 \
-    --tau2 4.0 \
+    --tau2 0.4 \
     --structure_encoder "gat" \
     --img_dim 400 \
     --attr_dim 400 \
     --w_name \
     --w_char \
-    --save_path "save/${1}_iter_woSF"
+    --save_path "$2" \
+    --wandb \
+    --wandb_project "CateEA-Reproduction" \
+    --wandb_run_name "${1}-iter-woSF" \
+    --wandb_group "DBP15K-iter-woSF" \
+    --wandb_tags DBP15K "$1" iter woSF
