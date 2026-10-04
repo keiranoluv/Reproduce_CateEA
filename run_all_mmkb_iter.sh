@@ -2,75 +2,40 @@
 
 set -euo pipefail
 
-mkdir -p logs
+mkdir -p \
+    outputs/table4/FBDB15K_iter_20 \
+    outputs/table4/FBDB15K_iter_50 \
+    outputs/table4/FBDB15K_iter_80 \
+    outputs/table4/FBYG15K_iter_20 \
+    outputs/table4/FBYG15K_iter_50 \
+    outputs/table4/FBYG15K_iter_80
 
-START_ALL=$(date +%s)
+bash myrun_mmkb_il.sh \
+    0 42 FBDB15K 0.2 \
+    outputs/table4/FBDB15K_iter_20 \
+    2>&1 | tee outputs/table4/FBDB15K_iter_20/FBDB15K_iter_20.log
 
-run_job () {
-    NAME="$1"
-    CMD="$2"
+bash myrun_mmkb_il.sh \
+    0 42 FBDB15K 0.5 \
+    outputs/table4/FBDB15K_iter_50 \
+    2>&1 | tee outputs/table4/FBDB15K_iter_50/FBDB15K_iter_50.log
 
-    echo
-    echo "=================================================="
-    echo "START: $NAME"
-    echo "TIME : $(date)"
-    echo "=================================================="
+bash myrun_mmkb_il.sh \
+    0 42 FBDB15K 0.8 \
+    outputs/table4/FBDB15K_iter_80 \
+    2>&1 | tee outputs/table4/FBDB15K_iter_80/FBDB15K_iter_80.log
 
-    START_JOB=$(date +%s)
+bash myrun_mmkb_il.sh \
+    0 42 FBYG15K 0.2 \
+    outputs/table4/FBYG15K_iter_20 \
+    2>&1 | tee outputs/table4/FBYG15K_iter_20/FBYG15K_iter_20.log
 
-    if eval "$CMD"; then
-        END_JOB=$(date +%s)
-        ELAPSED=$((END_JOB - START_JOB))
+bash myrun_mmkb_il.sh \
+    0 42 FBYG15K 0.5 \
+    outputs/table4/FBYG15K_iter_50 \
+    2>&1 | tee outputs/table4/FBYG15K_iter_50/FBYG15K_iter_50.log
 
-        echo "=================================================="
-        echo "PASS : $NAME"
-        echo "TIME : $(date)"
-        echo "ELAPSED: ${ELAPSED}s"
-        echo "=================================================="
-    else
-        END_JOB=$(date +%s)
-        ELAPSED=$((END_JOB - START_JOB))
-
-        echo "=================================================="
-        echo "FAIL : $NAME"
-        echo "TIME : $(date)"
-        echo "ELAPSED: ${ELAPSED}s"
-        echo "=================================================="
-
-        exit 1
-    fi
-}
-
-run_job \
-    "FBDB15K iterative 20%" \
-    "bash myrun_mmkb_il.sh 0 42 FBDB15K 0.2 2>&1 | tee logs/fbdb15k_iter_20.log"
-
-run_job \
-    "FBDB15K iterative 50%" \
-    "bash myrun_mmkb_il.sh 0 42 FBDB15K 0.5 2>&1 | tee logs/fbdb15k_iter_50.log"
-
-run_job \
-    "FBDB15K iterative 80%" \
-    "bash myrun_mmkb_il.sh 0 42 FBDB15K 0.8 2>&1 | tee logs/fbdb15k_iter_80.log"
-
-run_job \
-    "FBYG15K iterative 20%" \
-    "bash myrun_mmkb_il.sh 0 42 FBYG15K 0.2 2>&1 | tee logs/fbyg15k_iter_20.log"
-
-run_job \
-    "FBYG15K iterative 50%" \
-    "bash myrun_mmkb_il.sh 0 42 FBYG15K 0.5 2>&1 | tee logs/fbyg15k_iter_50.log"
-
-run_job \
-    "FBYG15K iterative 80%" \
-    "bash myrun_mmkb_il.sh 0 42 FBYG15K 0.8 2>&1 | tee logs/fbyg15k_iter_80.log"
-
-END_ALL=$(date +%s)
-TOTAL=$((END_ALL - START_ALL))
-
-echo
-echo "=================================================="
-echo "ALL MMKB ITERATIVE EXPERIMENTS COMPLETED"
-echo "FINISH TIME: $(date)"
-echo "TOTAL TIME : ${TOTAL}s"
-echo "=================================================="
+bash myrun_mmkb_il.sh \
+    0 42 FBYG15K 0.8 \
+    outputs/table4/FBYG15K_iter_80 \
+    2>&1 | tee outputs/table4/FBYG15K_iter_80/FBYG15K_iter_80.log

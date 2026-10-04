@@ -13,10 +13,15 @@ CUDA_VISIBLE_DEVICES=$1 python3 -u src/myrun.py \
     --csls_k 3 \
     --seed $2 \
     --tau 0.1 \
-    --tau2 4.0 \
+    --tau2 0.4 \
     --structure_encoder "gat" \
     --img_dim 300 \
     --attr_dim 300 \
     --w_name \
     --w_char \
-    --save_path "save_pkl/${3}_iter_${4}"
+    --save_path "$5" \
+    --wandb \
+    --wandb_project "CateEA-Reproduction" \
+    --wandb_run_name "${3}-iter-${4}" \
+    --wandb_group "MMKB-iter" \
+    --wandb_tags MMKB "$3" iter "rate-${4}"
