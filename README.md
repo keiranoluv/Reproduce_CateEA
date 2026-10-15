@@ -48,9 +48,24 @@ No broken requirements found.
 
 ## 2. Chuẩn bị dữ liệu
 
-Nguồn dữ liệu: [MEAformer](https://github.com/zjukg/MEAformer) — [Google Drive](https://drive.google.com/file/d/1VIWcc3KDcLcRImeSrF2AyhetBLq_gsnx/view).
+Tải bộ dữ liệu `mmkg.zip` từ [MEAformer](https://github.com/zjukg/MEAformer) ([Google Drive](https://drive.google.com/file/d/1VIWcc3KDcLcRImeSrF2AyhetBLq_gsnx/view)).
 
-Sau khi tải và giải nén, sắp xếp dữ liệu theo cấu trúc:
+Sau khi tải và giải nén, đặt các thư mục `DBP15K/`, `embedding/`, `pkls/`, `FBDB15K/` và `FBYG15K/` vào thư mục `data/` tại root repository.
+
+**Cấu hình đường dẫn MMKB**
+
+Dữ liệu MMKB nằm trong các thư mục `FBDB15K/norm/` và `FBYG15K/norm/`, trong khi mã nguồn CateEA yêu cầu đường dẫn `data/mmkb-datasets/`.
+
+Tạo symbolic links để sử dụng dữ liệu mà không cần sao chép:
+
+```bash
+mkdir -p data/mmkb-datasets
+
+ln -s ../FBDB15K/norm data/mmkb-datasets/FBDB15K
+ln -s ../FBYG15K/norm data/mmkb-datasets/FBYG15K
+```
+
+**Cấu trúc dữ liệu sau khi chuẩn bị:**
 
 ```text
 data/
@@ -59,21 +74,22 @@ data/
 │   ├── ja_en/
 │   ├── fr_en/
 │   └── translated_ent_name/
-│       ├── dbp_zh_en.json
-│       ├── dbp_ja_en.json
-│       └── dbp_fr_en.json
 ├── embedding/
 │   └── glove.6B.300d.txt
 ├── pkls/
 │   ├── zh_en_GA_id_img_feature_dict.pkl
 │   ├── ja_en_GA_id_img_feature_dict.pkl
 │   └── fr_en_GA_id_img_feature_dict.pkl
+├── FBDB15K/
+│   └── norm/
+├── FBYG15K/
+│   └── norm/
 └── mmkb-datasets/
-    ├── FBDB15K/
-    └── FBYG15K/
+    ├── FBDB15K -> ../FBDB15K/norm
+    └── FBYG15K -> ../FBYG15K/norm
 ```
 
-Mỗi thư mục dataset cần chứa đầy đủ các tệp đầu vào tương ứng, bao gồm dữ liệu đồ thị, entity alignment và đặc trưng đã trích xuất.
+Các đường dẫn trên cần được giữ nguyên để mã nguồn CateEA có thể tìm thấy dữ liệu tương ứng.
 
 ## 3. Chạy thực nghiệm
 
@@ -163,5 +179,6 @@ wandb login
 
 - **Mã nguồn gốc:** https://github.com/Melkor0007/CateEA
 - **Repository tái lập:** https://github.com/keiranoluv/Reproduce_CateEA
+- **Kết quả tái lập:** [WandB](https://forge.coreweave.com/wandb/keiranoluv-hcmus/cateea-reproduction?nw=nwuserkeiranoluv)
 
-Các kết quả thực nghiệm, so sánh và phân tích được trình bày riêng trong báo cáo đồ án.
+Ngoài ra các kết quả thực nghiệm, so sánh và phân tích được trình bày riêng trong báo cáo đồ án.
