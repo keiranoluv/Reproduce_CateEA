@@ -22,14 +22,28 @@ cd Reproduce_CateEA
 python3 -m venv cateea
 source cateea/bin/activate
 
-pip install -r requirements.txt
+python -m pip install --upgrade pip
+
+# Install PyTorch with CUDA 13.0
+python -m pip install torch==2.13.0 torchvision==0.28.0 \
+    --index-url https://download.pytorch.org/whl/cu130
+
+# Install remaining dependencies
+python -m pip install -r requirements.txt
 ```
 
-Kiểm tra GPU:
+Kiểm tra môi trường:
 
 ```bash
-nvidia-smi
-python -c "import torch; print(torch.cuda.is_available())"
+python -c "import torch; print(torch.__version__, torch.version.cuda, torch.cuda.is_available())"
+python -m pip check
+```
+
+Kỳ vọng:
+
+```
+2.13.0+cu130 13.0 True
+No broken requirements found.
 ```
 
 ## 2. Chuẩn bị dữ liệu
