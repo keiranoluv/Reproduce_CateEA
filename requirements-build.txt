@@ -1,0 +1,6 @@
+# Build prerequisites for scikit-learn-extra 0.3.0 on Python 3.12.
+# Install before requirements.txt; --no-build-isolation uses these versions.
+numpy==1.26.4
+Cython==0.29.37
+setuptools==78.1.0
+wheel==0.48.0
