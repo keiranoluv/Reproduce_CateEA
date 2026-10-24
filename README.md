@@ -1,6 +1,6 @@
-# CateEA — Tái lập thực nghiệm
+# CateEA - Tái lập thực nghiệm
 
-Repository phục vụ tái lập thực nghiệm bài báo **CateEA** trong khuôn khổ đồ án môn **Học máy với dữ liệu đồ thị (MTH084)**.
+Repository phục vụ tái lập thực nghiệm bài báo **CateEA**.
 
 Mã nguồn được kế thừa từ [CateEA của tác giả](https://github.com/Melkor0007/CateEA) và bổ sung các script phục vụ tái lập. Kết quả và phân tích thực nghiệm được trình bày trong báo cáo đồ án.
 
