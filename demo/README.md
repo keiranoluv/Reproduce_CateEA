@@ -44,6 +44,10 @@ ablation bỏ category khỏi huấn luyện. Bật/tắt SF và iterative chọ
 
 ## Dữ liệu và tương tác
 
+- Bàn ghép cặp hiển thị hai đồ thị cạnh nhau trên màn hình rộng. Màn hình nhỏ
+  có nút **Nguồn / Ứng viên** để dành đủ chỗ đọc từng đồ thị; chọn ứng viên sẽ
+  tự mở đồ thị đích. **Phóng to** mở cửa sổ riêng, có danh sách tên đầy đủ.
+  Nhãn trong thẻ tự xuống dòng theo chiều rộng; bấm thẻ hoặc cạnh để đọc dữ kiện.
 - `data/demo.json`: snapshot phục vụ giao diện. Có 24 cặp JA–EN, 24 cặp ZH–EN,
   các ứng viên, tối đa 4 nút lân cận mỗi thực thể chính, thuộc tính và nguồn hàng.
   Các nút ngữ cảnh bổ sung không được tính thành cặp tuyển chọn.
@@ -95,6 +99,15 @@ python -m unittest discover -s tests -p 'test_demo_data.py' -v
 Kiểm tra snapshot, hạng/cặp chuẩn, nguồn triple/dự đoán, ảnh và hash.
 Các kiểm tra raw đối chiếu file gốc khi có sẵn, báo skip trong checkout không có raw.
 Browser QA dùng Playwright riêng; không thêm dependency browser vào môi trường train.
+
+Khi đã có Playwright và Chromium, kiểm tra bố cục đồ thị bằng:
+
+```bash
+python -m unittest discover -s tests -p 'test_demo_layout.py' -v
+```
+
+Bài kiểm tra đối chiếu khung nhãn của toàn bộ thực thể có đồ thị ngữ cảnh,
+chuyển đồ thị trên màn hình nhỏ, cửa sổ phóng to và thao tác bàn phím.
 
 ## GitHub Pages
 

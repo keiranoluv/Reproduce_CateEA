@@ -6,7 +6,11 @@ const short = (value, length = 20) => value.length > length ? `${value.slice(0, 
 const portraitFiles = { "Hàm Nghi": "ham-nghi", "Tự Đức": "tu-duc", "Bảo Đại": "bao-dai" };
 const STORAGE_KEY = "cateea-match-lab-quiz-v1";
 let data;
-const state = { dataset: "ja_en", pair: "ja_en:8853", config: "noniter_wSF", weighted: false, candidate: null, caseView: "play", caseChoice: null, ics: false, caseConfig: "noniter_wSF", quizIndex: 0, quizChoice: null, answers: {}, step: 0 };
+const state = { dataset: "ja_en", pair: "ja_en:8853", config: "noniter_wSF", weighted: false, candidate: null, graphSide: "source", caseView: "play", caseChoice: null, ics: false, caseConfig: "noniter_wSF", quizIndex: 0, quizChoice: null, answers: {}, step: 0 };
+const graphTextContext = document.createElement("canvas").getContext("2d");
+const graphFont = 'Inter, "Segoe UI", Arial, "CateEA CJK", sans-serif';
+let graphObserver;
+let graphLayoutFrame;
 
 const entity = (id) => data.entities[id];
 const dataset = (id = state.dataset) => data.datasets.find((d) => d.id === id);
@@ -45,23 +49,118 @@ function renderPairList() {
   $("#pair-list").innerHTML = visible.length ? visible.map((pair) => `<button type="button" class="pair-item ${pair.id === state.pair ? "active" : ""}" data-pair="${pair.id}" aria-pressed="${pair.id === state.pair}"><strong>${escapeHTML(entity(pair.source).label)}</strong><small>${escapeHTML(pair.title)}</small></button>`).join("") : `<p class="empty-search">Không tìm thấy cặp phù hợp. Thử tên tiếng Anh hoặc ID nguồn.</p>`;
 }
 
-function miniGraph(rootId, prefix) {
-  const root = entity(rootId);
-  const positions = [[58, 42], [262, 42], [58, 177], [262, 177]];
-  const center = [160, 109];
+function measureGraphText(text, fontSize, weight = 500) {
+  if (!graphTextContext) return Array.from(text).length * fontSize;
+  graphTextContext.font = `${weight} ${fontSize}px ${graphFont}`;
+  return graphTextContext.measureText(text).width;
+}
+
+function wrapGraphLabel(label, maxWidth, fontSize, weight = 500) {
+  const lines = [];
+  let line = "";
+  for (let word of label.split(/\s+/u)) {
+    const joined = line ? `${line} ${word}` : word;
+    if (measureGraphText(joined, fontSize, weight) <= maxWidth) { line = joined; continue; }
+    if (line) { lines.push(line); line = ""; }
+    let piece = "";
+    for (const character of word) {
+      if (piece && measureGraphText(piece + character, fontSize, weight) > maxWidth) {
+        lines.push(piece); piece = "";
+      }
+      piece += character;
+    }
+    line = piece;
+  }
+  if (line) lines.push(line);
+  if (lines.length <= 3) return lines;
+  const visible = lines.slice(0, 3);
+  let last = Array.from(visible[2]);
+  while (last.length && measureGraphText(last.join("") + "…", fontSize, weight) > maxWidth) last.pop();
+  visible[2] = last.join("") + "…";
+  return visible;
+}
+
+function miniGraph(rootId, prefix, expanded = false) {
+  return `<div class="graph-surface ${expanded ? "expanded" : ""}" data-graph-root="${rootId}" data-graph-prefix="${prefix}" data-graph-expanded="${expanded}"><svg class="mini-graph" role="group" aria-label="Đồ thị ngữ cảnh của ${escapeHTML(entity(rootId).label)}"></svg></div>`;
+}
+
+function graphNode(id, x, y, width, height, fontSize, center = false) {
+  const row = entity(id), weight = center ? 600 : 500;
+  const lines = wrapGraphLabel(row.label, width - 24, fontSize, weight);
+  const lineHeight = fontSize + 5;
+  return `<g class="graph-node" role="button" tabindex="0" data-inspect="${id}" aria-label="Đọc thực thể ${escapeHTML(row.label)}"><title>${escapeHTML(row.label)}</title><rect class="${center ? "center-node" : "node"}" x="${x - width / 2}" y="${y - height / 2}" width="${width}" height="${height}" rx="10"/><text class="graph-node-label" text-anchor="middle" dominant-baseline="middle" style="font-size:${fontSize}px;font-weight:${weight}">${lines.map((line, i) => `<tspan x="${x}" y="${y + (i - (lines.length - 1) / 2) * lineHeight}">${escapeHTML(line)}</tspan>`).join("")}</text></g>`;
+}
+
+function drawGraph(surface, force = false) {
+  const width = Math.floor(surface.clientWidth) - 2;
+  if (width < 140 || (!force && Number(surface.dataset.layoutWidth) === width)) return;
+  surface.dataset.layoutWidth = width;
+  const rootId = surface.dataset.graphRoot, root = entity(rootId), prefix = surface.dataset.graphPrefix;
+  const expanded = surface.dataset.graphExpanded === "true";
+  const padding = 16, sideHeight = expanded ? 92 : 84, rootHeight = expanded ? 100 : 94, gap = 42;
+  const sideWidth = Math.min(expanded ? 260 : 180, (width - 3 * padding) / 2);
+  const rootWidth = Math.min(expanded ? 320 : 240, width - 2 * padding);
+  const height = root.neighbors.length ? 2 * padding + 2 * sideHeight + rootHeight + 2 * gap : 220;
+  const center = [width / 2, root.neighbors.length ? padding + sideHeight + gap + rootHeight / 2 : height / 2];
+  const left = padding + sideWidth / 2, right = width - padding - sideWidth / 2;
+  const top = padding + sideHeight / 2, bottom = height - padding - sideHeight / 2;
+  const positions = [[left, top], [right, top], [left, bottom], [right, bottom]];
   const lines = root.neighbors.map((edge, i) => {
-    const [x, y] = positions[i];
-    const dx = x - center[0], dy = y - center[1], distance = Math.hypot(dx, dy);
-    let x1 = center[0] + dx / distance * 32, y1 = center[1] + dy / distance * 32;
-    let x2 = x - dx / distance * 22, y2 = y - dy / distance * 22;
+    const [x, y] = positions[i], dx = x - center[0], dy = y - center[1];
+    const startScale = Math.min((rootWidth / 2 + 2) / Math.abs(dx), (rootHeight / 2 + 2) / Math.abs(dy));
+    const endScale = Math.min((sideWidth / 2 + 3) / Math.abs(dx), (sideHeight / 2 + 3) / Math.abs(dy));
+    let x1 = center[0] + dx * startScale, y1 = center[1] + dy * startScale;
+    let x2 = x - dx * endScale, y2 = y - dy * endScale;
     if (edge.direction === "in") [x1, y1, x2, y2] = [x2, y2, x1, y1];
-    return `<g role="button" tabindex="0" data-edge-root="${rootId}" data-edge-index="${i}" aria-label="Xem quan hệ ${edge.relation} với ${escapeHTML(entity(edge.entity).label)}"><title>Quan hệ ID ${edge.relation} · ${escapeHTML(edge.direction === "out" ? "đi ra" : "đi vào")}</title><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="transparent" stroke-width="13"/><line class="edge" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" marker-end="url(#arrow-${prefix})"/><text class="relation-label" x="${(x1+x2)/2}" y="${(y1+y2)/2-6}" text-anchor="middle">r:${edge.relation}</text></g>`;
+    const label = `r:${edge.relation}`, labelWidth = measureGraphText(label, 12) + 12;
+    let labelX = (x1 + x2) / 2;
+    labelX = x < center[0] ? Math.min(labelX, center[0] - labelWidth / 2 - 8) : Math.max(labelX, center[0] + labelWidth / 2 + 8);
+    labelX = Math.max(labelWidth / 2 + 4, Math.min(width - labelWidth / 2 - 4, labelX));
+    const labelY = (y1 + y2) / 2;
+    return `<g class="graph-edge" role="button" tabindex="0" data-edge-root="${rootId}" data-edge-index="${i}" aria-label="Xem quan hệ ${edge.relation} với ${escapeHTML(entity(edge.entity).label)}"><title>Quan hệ ID ${edge.relation} · ${edge.direction === "out" ? "đi ra" : "đi vào"}</title><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="transparent" stroke-width="16"/><line class="edge" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" marker-end="url(#arrow-${prefix})"/><rect class="relation-background" x="${labelX - labelWidth / 2}" y="${labelY - 11}" width="${labelWidth}" height="22" rx="5"/><text class="relation-label" x="${labelX}" y="${labelY + 1}" text-anchor="middle" dominant-baseline="middle" style="font-size:12px;font-weight:500">${label}</text></g>`;
   }).join("");
-  const nodes = root.neighbors.map((edge, i) => {
-    const [x, y] = positions[i];
-    return `<g role="button" tabindex="0" data-inspect="${edge.entity}" aria-label="Đọc thực thể ${escapeHTML(entity(edge.entity).label)}"><title>${escapeHTML(entity(edge.entity).label)}</title><circle class="node" cx="${x}" cy="${y}" r="19"/><circle cx="${x}" cy="${y}" r="4" fill="${root.side === 1 ? "#8aab77" : "#aa94bb"}"/><text x="${x}" y="${y + 32}" text-anchor="middle">${escapeHTML(short(entity(edge.entity).label, 17))}</text></g>`;
-  }).join("");
-  return `<svg class="mini-graph" viewBox="0 0 320 225" role="group" aria-label="Đồ thị ngữ cảnh của ${escapeHTML(root.label)}"><defs><marker id="arrow-${prefix}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 10 5 0 10" fill="${root.side === 1 ? "#a4b497" : "#b5a2c7"}"/></marker></defs>${lines}${nodes}<g role="button" tabindex="0" data-inspect="${rootId}" aria-label="Đọc thực thể ${escapeHTML(root.label)}"><circle class="center-node" cx="160" cy="109" r="30"/><text class="center-label" x="160" y="113" text-anchor="middle">${escapeHTML(short(root.label, 12))}</text></g>${root.neighbors.length ? "" : '<text x="160" y="185" text-anchor="middle">Không có cạnh trong snapshot</text>'}</svg>`;
+  const nodes = root.neighbors.map((edge, i) => graphNode(edge.entity, ...positions[i], sideWidth, sideHeight, expanded ? 18 : 16)).join("");
+  const svg = surface.querySelector("svg");
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  svg.style.height = `${height + 2}px`;
+  svg.innerHTML = `<defs><marker id="arrow-${prefix}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10" fill="${root.side === 1 ? "#7f9e70" : "#a38ab8"}"/></marker></defs>${lines}${nodes}${graphNode(rootId, ...center, rootWidth, rootHeight, expanded ? 20 : 18, true)}${root.neighbors.length ? "" : `<text x="${width / 2}" y="${height - 25}" text-anchor="middle" style="font-size:14px">Không có cạnh trong snapshot</text>`}`;
+}
+
+function layoutGraphSurfaces(force = false) {
+  document.querySelectorAll(".graph-surface").forEach((surface) => drawGraph(surface, force));
+}
+
+function observeGraphSurfaces() {
+  if (!graphObserver && "ResizeObserver" in window) {
+    graphObserver = new ResizeObserver(() => {
+      if (graphLayoutFrame) cancelAnimationFrame(graphLayoutFrame);
+      graphLayoutFrame = requestAnimationFrame(() => { graphLayoutFrame = null; layoutGraphSurfaces(); });
+    });
+  }
+  graphObserver?.disconnect();
+  document.querySelectorAll(".graph-surface").forEach((surface) => graphObserver?.observe(surface));
+  layoutGraphSurfaces(true);
+}
+
+function setGraphSide(side) {
+  state.graphSide = side;
+  $(".graph-pair").dataset.activeView = side;
+  document.querySelectorAll("[data-graph-view]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.graphView === side)));
+  layoutGraphSurfaces();
+}
+
+function openGraph(id) {
+  const row = entity(id);
+  $("#graph-dialog-title").textContent = row.label;
+  $("#graph-dialog-meta").textContent = `${dataset(row.dataset).label} · ${row.side === 1 ? "Nguồn" : "Ứng viên"} · #${row.numericId}`;
+  $("#graph-dialog-content").classList.toggle("target", row.side === 2);
+  $("#graph-dialog-content").innerHTML = miniGraph(id, "expanded", true) + (row.neighbors.length ? `<div class="graph-neighbor-list"><h3>Thực thể lân cận</h3>${row.neighbors.map((edge) => `<button type="button" data-inspect="${edge.entity}"><span>${escapeHTML(entity(edge.entity).label)}</span><small>${edge.direction === "out" ? "→" : "←"} r:${edge.relation}</small></button>`).join("")}</div>` : "");
+  $("#graph-dialog").showModal();
+  observeGraphSurfaces();
+}
+
+function graphPanel(row, source) {
+  return `<div class="entity-graph-panel ${source ? "source" : "target"}"><div class="entity-heading"><div><span class="tiny-label">${source ? `NGUỒN · ${state.dataset === "ja_en" ? "JA" : "ZH"}` : "ỨNG VIÊN · EN"} #${row.numericId}</span><h3>${escapeHTML(row.label)}</h3></div><div class="graph-actions"><button type="button" class="text-button graph-expand" data-expand-graph="${row.id}" aria-label="Phóng to đồ thị ${source ? "nguồn" : "ứng viên"}">Phóng to ⤢</button><button type="button" class="inspect-icon" data-inspect="${row.id}" aria-label="Chi tiết ${source ? "thực thể nguồn" : "ứng viên"}">↗</button></div></div>${miniGraph(row.id, source ? "source" : "target")}</div>`;
 }
 
 function renderLab() {
@@ -73,13 +172,14 @@ function renderLab() {
   $("#lab-config").value = state.config;
   $("#weighting-toggle").checked = state.weighted;
   renderPairList();
-  $("#lab-content").innerHTML = `<div class="comparison-stage"><div class="graph-pair"><div class="entity-graph-panel"><div class="entity-heading"><div><span class="tiny-label">NGUỒN · ${state.dataset === "ja_en" ? "JA" : "ZH"} #${source.numericId}</span><h3>${escapeHTML(source.label)}</h3></div><button type="button" class="inspect-icon" data-inspect="${source.id}" aria-label="Chi tiết thực thể nguồn">↗</button></div>${miniGraph(source.id, "source")}</div><div class="graph-connector" aria-hidden="true">↔</div><div class="entity-graph-panel target"><div class="entity-heading"><div><span class="tiny-label">ỨNG VIÊN · EN #${target.numericId}</span><h3>${escapeHTML(target.label)}</h3></div><button type="button" class="inspect-icon" data-inspect="${target.id}" aria-label="Chi tiết ứng viên">↗</button></div>${miniGraph(target.id, "target")}</div></div><p class="match-status ${target.id === pair.target ? "" : "other"}">${target.id === pair.target ? "✓ Trùng với cặp chuẩn trong benchmark" : "↔ Đang đối chiếu một ứng viên khác với cặp chuẩn"}</p></div><div class="model-candidates"><div class="candidate-heading"><span>TOP 3 · ${state.weighted ? "WEIGHTED_TEST" : "TEST"}</span><span>ĐÁP ÁN CHUẨN Ở HẠNG <b>#${row.rank}</b></span></div><div class="candidate-strip">${row.top3.map((id, i) => `<button type="button" class="model-candidate ${id === state.candidate ? "active" : ""}" data-candidate="${id}" aria-pressed="${id === state.candidate}"><span class="candidate-rank">HẠNG 0${i + 1}</span><strong>${escapeHTML(entity(id).label)}</strong>${id === pair.target ? "<small>✓ Cặp chuẩn</small>" : ""}</button>`).join("")}</div>${!row.top3.includes(pair.target) ? `<div class="ground-truth-outside"><span>Đáp án chuẩn nằm ngoài top 3 · Hạng #${row.rank}</span><button type="button" class="text-button" data-candidate="${pair.target}">Xem ${escapeHTML(short(pair.title, 25))} →</button></div>` : ""}</div><div class="graph-note"><span>Bấm nút hoặc cạnh để đọc nguồn. r:ID là mã quan hệ gốc.</span><button type="button" class="text-button" data-prediction-pair="${pair.id}" data-prediction-config="${state.config}" data-prediction-mode="${state.weighted ? "weighted" : "test"}">Bản ghi dự đoán ↗</button></div>`;
+  $("#lab-content").innerHTML = `<div class="comparison-stage"><div class="graph-viewbar"><span>NGỮ CẢNH ĐỒ THỊ</span><div class="segmented graph-view-tabs" role="group" aria-label="Chọn đồ thị"><button type="button" data-graph-view="source" aria-pressed="${state.graphSide === "source"}">Nguồn</button><button type="button" data-graph-view="target" aria-pressed="${state.graphSide === "target"}">Ứng viên</button></div></div><div class="graph-pair" data-active-view="${state.graphSide}">${graphPanel(source, true)}<div class="graph-connector" aria-hidden="true">↔</div>${graphPanel(target, false)}</div><p class="match-status ${target.id === pair.target ? "" : "other"}">${target.id === pair.target ? "✓ Trùng với cặp chuẩn trong benchmark" : "↔ Đang đối chiếu một ứng viên khác với cặp chuẩn"}</p></div><div class="model-candidates"><div class="candidate-heading"><span>TOP 3 · ${state.weighted ? "WEIGHTED_TEST" : "TEST"}</span><span>ĐÁP ÁN CHUẨN Ở HẠNG <b>#${row.rank}</b></span></div><div class="candidate-strip">${row.top3.map((id, i) => `<button type="button" class="model-candidate ${id === state.candidate ? "active" : ""}" data-candidate="${id}" aria-pressed="${id === state.candidate}"><span class="candidate-rank">HẠNG 0${i + 1}</span><strong>${escapeHTML(entity(id).label)}</strong>${id === pair.target ? "<small>✓ Cặp chuẩn</small>" : ""}</button>`).join("")}</div>${!row.top3.includes(pair.target) ? `<div class="ground-truth-outside"><span>Đáp án chuẩn nằm ngoài top 3 · Hạng #${row.rank}</span><button type="button" class="text-button" data-candidate="${pair.target}">Xem ${escapeHTML(short(pair.title, 25))} →</button></div>` : ""}</div><div class="graph-note"><span>Bấm thẻ để đọc tên đầy đủ; bấm cạnh để xem nguồn. r:ID là mã quan hệ gốc.</span><button type="button" class="text-button" data-prediction-pair="${pair.id}" data-prediction-config="${state.config}" data-prediction-mode="${state.weighted ? "weighted" : "test"}">Bản ghi dự đoán ↗</button></div>`;
+  observeGraphSurfaces();
 }
 
 function jumpToPair(id, config = "noniter_woSF") {
   const pair = pairById(id);
   if (!pair) return;
-  state.dataset = id.split(":")[0]; state.pair = id; state.config = config; state.weighted = false; state.candidate = null;
+  state.dataset = id.split(":")[0]; state.pair = id; state.config = config; state.weighted = false; state.candidate = null; state.graphSide = "source";
   $("#entity-search").value = "";
   renderLab();
   $("#lab").scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
@@ -213,10 +313,12 @@ function installEvents() {
     else if (d.caseChoice) { state.caseChoice = d.caseChoice; renderCase(); }
     else if (d.ics) { state.ics = d.ics === "on"; renderCase(); }
     else if (d.caseToLab !== undefined) jumpToPair("ja_en:8853", state.caseConfig);
-    else if (d.dataset) { state.dataset = d.dataset; state.pair = d.dataset === "ja_en" ? "ja_en:8853" : "zh_en:9867"; state.candidate = null; $("#entity-search").value = ""; renderLab(); }
-    else if (d.pair) { state.pair = d.pair; state.candidate = null; renderLab(); }
-    else if (d.candidate) { state.candidate = d.candidate; renderLab(); }
+    else if (d.dataset) { state.dataset = d.dataset; state.pair = d.dataset === "ja_en" ? "ja_en:8853" : "zh_en:9867"; state.candidate = null; state.graphSide = "source"; $("#entity-search").value = ""; renderLab(); }
+    else if (d.pair) { state.pair = d.pair; state.candidate = null; state.graphSide = "source"; renderLab(); }
+    else if (d.candidate) { state.candidate = d.candidate; state.graphSide = "target"; renderLab(); }
     else if (d.jumpPair) jumpToPair(d.jumpPair, d.jumpConfig);
+    else if (d.graphView) setGraphSide(d.graphView);
+    else if (d.expandGraph) openGraph(d.expandGraph);
     else if (d.inspect) showEntity(d.inspect);
     else if (d.edgeRoot) showEdge(d.edgeRoot, Number(d.edgeIndex));
     else if (d.predictionPair) showPrediction(d.predictionPair, d.predictionConfig, d.predictionMode);
@@ -239,7 +341,11 @@ function installEvents() {
   $("#metrics-mode").addEventListener("change", renderMetrics);
   $("#snapshot-info").addEventListener("click", snapshotInfo);
   $("#dialog-close").addEventListener("click", () => $("#evidence-dialog").close());
-  $("#evidence-dialog").addEventListener("click", (event) => { if (event.target === event.currentTarget) { const rect = event.currentTarget.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) event.currentTarget.close(); } });
+  $("#graph-dialog-close").addEventListener("click", () => $("#graph-dialog").close());
+  for (const dialog of [$("#evidence-dialog"), $("#graph-dialog")]) {
+    dialog.addEventListener("click", (event) => { if (event.target === event.currentTarget) { const rect = event.currentTarget.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) event.currentTarget.close(); } });
+  }
+  window.addEventListener("resize", () => layoutGraphSurfaces());
 }
 
 async function start() {
@@ -253,6 +359,8 @@ async function start() {
     installEvents();
     $("#load-status").hidden = true;
     $("#app").hidden = false;
+    layoutGraphSurfaces(true);
+    document.fonts?.ready.then(() => layoutGraphSurfaces(true));
     if (location.hash) requestAnimationFrame(() => document.getElementById(location.hash.slice(1))?.scrollIntoView());
     try {
       const creditsResponse = await fetch("assets/image-sources.json");

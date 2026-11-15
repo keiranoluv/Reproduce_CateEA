@@ -3988,3 +3988,252 @@ body,.mini-graph text,.method-visual svg text {
     padding:9px 13px
   }
 }
+
+/* Size graph labels in pixels and give each node a bounded card. */
+.graph-viewbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+.graph-viewbar>span {
+  color:var(--muted);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.06em;
+}
+.graph-view-tabs {
+  display:none;
+}
+.graph-pair {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr);
+  align-items:start;
+  gap:10px;
+}
+.entity-graph-panel {
+  min-width:0;
+}
+.graph-pair .entity-heading {
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:space-between;
+  gap:12px;
+  min-height:132px;
+  margin:0 0 14px;
+}
+.entity-heading>div {
+  min-width:0;
+}
+.graph-pair .entity-heading h3 {
+  font-size:22px;
+  line-height:1.4;
+  overflow-wrap:anywhere;
+}
+.graph-pair .entity-heading .tiny-label {
+  font-size:11px;
+}
+.graph-actions {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.graph-actions .graph-expand {
+  color:var(--teal);
+  font-size:16px;
+  line-height:1.5;
+  padding:4px 0;
+}
+.target .graph-actions .graph-expand {
+  color:#75618f;
+}
+.graph-actions .inspect-icon {
+  width:34px;
+  height:34px;
+  font-size:16px;
+  margin:0;
+}
+.graph-pair .graph-connector {
+  transform:none;
+  margin:290px 0 0;
+  align-self:start;
+  font-size:25px;
+  height:auto;
+}
+.graph-surface {
+  width:100%;
+  min-width:0;
+}
+.graph-surface .mini-graph {
+  width:100%;
+  max-height:none;
+  overflow:hidden;
+  border-radius:10px;
+}
+.graph-surface .graph-node-label {
+  font-family:Inter,"Segoe UI",Arial,"CateEA CJK",sans-serif;
+  stroke:none;
+}
+.graph-surface .relation-label {
+  fill:#53664c;
+  stroke:none;
+  paint-order:normal;
+}
+.target .graph-surface .relation-label {
+  fill:#75618f;
+  stroke:none;
+}
+.graph-surface .relation-background {
+  fill:#f7f9f2;
+  stroke:#d6dfd0;
+  stroke-width:.6;
+}
+.target .graph-surface .relation-background {
+  fill:#f6f3f9;
+  stroke:#e0d7e8;
+}
+.graph-surface .graph-node:hover rect,
+.graph-surface .graph-node:focus-visible rect {
+  stroke:var(--teal);
+  stroke-width:2.5;
+}
+.target .graph-surface .graph-node:hover rect,
+.target .graph-surface .graph-node:focus-visible rect {
+  stroke:var(--purple);
+}
+.graph-edge:focus-visible .relation-background,
+.graph-edge:hover .relation-background {
+  stroke:var(--teal);
+  stroke-width:1.5;
+}
+#graph-dialog {
+  width:min(1100px,calc(100vw - 32px));
+  max-width:none;
+  max-height:92vh;
+  padding:24px;
+}
+#graph-dialog .dialog-header {
+  align-items:flex-start;
+}
+#graph-dialog .dialog-header>div {
+  min-width:0;
+}
+#graph-dialog-title {
+  margin-top:8px;
+  font-size:26px;
+  line-height:1.4;
+  overflow-wrap:anywhere;
+}
+#graph-dialog-close {
+  flex-shrink:0;
+  width:40px;
+  height:40px;
+}
+#graph-dialog-content {
+  padding-top:20px;
+}
+.graph-reader-note {
+  margin-top:18px;
+  font-size:15px;
+}
+.graph-neighbor-list {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:10px;
+  margin-top:22px;
+}
+.graph-neighbor-list h3 {
+  grid-column:1/-1;
+  font-size:20px;
+  margin-bottom:4px;
+}
+.graph-neighbor-list button {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  min-width:0;
+  padding:13px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:7px;
+  text-align:left;
+  font-size:17px;
+  line-height:1.6;
+}
+.graph-neighbor-list span {
+  overflow-wrap:anywhere;
+}
+.graph-neighbor-list small {
+  font-size:12px;
+  color:var(--muted);
+  flex-shrink:0;
+}
+@media(max-width:1199px) {
+  .graph-view-tabs {
+    display:inline-flex;
+  }
+  .graph-view-tabs button {
+    font-size:15px;
+    padding:9px 14px;
+  }
+  .graph-pair {
+    grid-template-columns:minmax(0,1fr);
+  }
+  .graph-pair .graph-connector {
+    display:none;
+  }
+  .graph-pair[data-active-view=source] .entity-graph-panel.target,
+  .graph-pair[data-active-view=target] .entity-graph-panel.source {
+    display:none;
+  }
+  .graph-pair .entity-heading {
+    min-height:0;
+  }
+}
+@media(max-width:600px) {
+  .graph-viewbar {
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .graph-viewbar>span {
+    font-size:11px;
+  }
+  .graph-view-tabs {
+    width:100%;
+  }
+  .graph-view-tabs button {
+    flex:1;
+    font-size:16px;
+  }
+  .graph-pair .entity-heading h3 {
+    font-size:24px;
+  }
+  .graph-pair .entity-heading .tiny-label {
+    font-size:12px;
+  }
+  .graph-actions .inspect-icon {
+    width:40px;
+    height:40px;
+  }
+  #graph-dialog {
+    width:calc(100vw - 16px);
+    padding:14px;
+    max-height:96vh;
+  }
+  #graph-dialog-title {
+    font-size:23px;
+  }
+  #graph-dialog-meta {
+    font-size:12px;
+  }
+  .graph-neighbor-list {
+    grid-template-columns:minmax(0,1fr);
+  }
+  .graph-neighbor-list button {
+    flex-wrap:wrap;
+  }
+}
