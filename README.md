@@ -1,27 +1,44 @@
 # CateEA - Tái lập thực nghiệm
 
+## Web demo
+
+**[Mở CateEA / Match Lab](https://keiranoluv.github.io/Reproduce_CateEA/)**
+
+Thử ghép 48 cặp thực thể JA-EN/ZH-EN, trả lời 6 câu hỏi và xem case **Hàm Nghi và Tự Đức** trong Appendix A.5, Table 6 của paper. Demo cho phép đối chiếu kết quả paper với dự đoán tái lập đã lưu.
+
+Chạy trên máy:
+
+```bash
+python -m http.server 4173 --directory demo
+```
+
+Mở http://localhost:4173. Demo chạy bằng dữ liệu đã xuất sẵn, không cần checkpoint, GPU hoặc backend. Xem [hướng dẫn và nguồn dữ liệu](demo/README.md).
+
+GitHub Actions kiểm tra và deploy thư mục `demo/` lên GitHub Pages khi push lên `main`, cùng cách triển khai với DSoM.
+
+## Tái lập thực nghiệm
+
 Repository phục vụ tái lập thực nghiệm bài báo **CateEA: Enhancing Entity Alignment via Implicit Category Supervision (CateEA)**.
 
 Mã nguồn được kế thừa từ [CateEA của tác giả](https://github.com/Melkor0007/CateEA), bổ sung script tái lập và web demo tương tác. Các bảng kết quả tái lập nằm trong `results/`; phân tích thực nghiệm được trình bày trong báo cáo đồ án.
 
 - [Paper](https://aclanthology.org/2025.coling-main.399/) · [Mã nguồn tác giả](https://github.com/Melkor0007/CateEA)
 - [Kết quả và so sánh với paper](results/comparison.md) · [Số liệu CSV](results/comparison.csv)
-- [Web demo — CateEA / Match Lab](https://keiranoluv.github.io/Reproduce_CateEA/) · [Hướng dẫn demo](demo/README.md)
 
 ## 1. Phạm vi
 
-Các script chạy **24 cấu hình CateEA thuộc Table 1–4**. Mỗi cấu hình sinh H@1, H@10, H@50, MR và MRR; không cần chạy riêng từng chỉ số.
+Các script chạy **24 cấu hình CateEA thuộc Table 1-4**. Mỗi cấu hình sinh H@1, H@10, H@50, MR và MRR; không cần chạy riêng từng chỉ số.
 
 | Bảng | Dataset | Chế độ | Số cấu hình |
 |---|---|---|---:|
-| Table 1 | DBP15K: ZH–EN, JA–EN, FR–EN | Non-iterative, có/không SF | 6 |
-| Table 2 | DBP15K: ZH–EN, JA–EN, FR–EN | Iterative, có/không SF | 6 |
-| Table 3 | FB15K–DB15K, FB15K–YAGO15K | Non-iterative, train 20%/50%/80% | 6 |
-| Table 4 | FB15K–DB15K, FB15K–YAGO15K | Iterative, train 20%/50%/80% | 6 |
+| Table 1 | DBP15K: ZH-EN, JA-EN, FR-EN | Non-iterative, có/không SF | 6 |
+| Table 2 | DBP15K: ZH-EN, JA-EN, FR-EN | Iterative, có/không SF | 6 |
+| Table 3 | FB15K-DB15K, FB15K-YAGO15K | Non-iterative, train 20%/50%/80% | 6 |
+| Table 4 | FB15K-DB15K, FB15K-YAGO15K | Iterative, train 20%/50%/80% | 6 |
 
-**SF** là surface features (tên entity); **iterative** bổ sung các cặp alignment dự đoán vào tập train. `FBDB15K` tương ứng FB15K–DB15K; `FBYG15K` tương ứng FB15K–YAGO15K.
+**SF** là surface features (tên entity); **iterative** bổ sung các cặp alignment dự đoán vào tập train. `FBDB15K` tương ứng FB15K-DB15K; `FBYG15K` tương ứng FB15K-YAGO15K.
 
-Đây là **bốn bảng chính**, chưa phải toàn bộ thực nghiệm của paper: chưa có script tổng chạy ablation (Figure 3), khảo sát seed/category (Figure 4), đồ thị và case study ở phụ lục. Các script không chạy lại mô hình baseline trong bảng.
+Phạm vi gồm bốn bảng chính của paper. Repo chưa có script tổng chạy ablation (Figure 3), khảo sát seed/category (Figure 4), đồ thị và case study ở phụ lục. Các script không chạy lại mô hình baseline trong bảng.
 
 ## 2. Cài đặt
 
@@ -154,7 +171,7 @@ bash scripts/mmkb/run_all_mmkb_iter.sh
 
 Một cấu hình tương ứng bộ H@1/H@10/MRR của một dataset và một thiết lập trong bảng. Thay các biến trong ví dụ để chọn ô khác.
 
-### DBP15K — Table 1 và Table 2
+### DBP15K: Table 1 và Table 2
 
 `dataset`: `zh_en`, `ja_en`, `fr_en`; `sf`: `woSF`, `wSF`. Tỷ lệ train là 30%.
 
@@ -178,7 +195,7 @@ bash "scripts/dbp15k/myrun_dbp15k_iter_${sf}.sh" \
 
 Script DBP15K chọn GPU 0 và seed 42 trực tiếp trong file. Để đổi GPU, sửa `CUDA_VISIBLE_DEVICES=0` trong script tương ứng.
 
-### MMKB — Table 3 và Table 4
+### MMKB: Table 3 và Table 4
 
 `dataset`: `FBDB15K`, `FBYG15K`; `rate`: `0.2`, `0.5`, `0.8`; `mode`: `noniter`, `iter`. MMKB không dùng SF.
 
@@ -220,7 +237,7 @@ outputs/
 
 `test` đánh giá thông thường; `weighted_test` thêm category weighting. Cả hai được đánh giá trong cùng lượt train. Checkpoint tốt nhất được chọn bằng **test H@1**, không phải weighted H@1; dự đoán epoch cuối có thể khác checkpoint tốt nhất. Code chạy đủ số epoch, không tự early-stop.
 
-Kết quả cũ ở `outputs/table1`–`table4`, khác đường dẫn script hiện tại. Dữ liệu, checkpoint, log và W&B không được commit vào Git.
+Kết quả cũ nằm trong các thư mục từ `outputs/table1` đến `outputs/table4`, khác đường dẫn script hiện tại. Dữ liệu, checkpoint, log và W&B không được commit vào Git.
 
 ## 8. Tổng hợp kết quả
 
@@ -240,25 +257,9 @@ python scripts/summarize_results.py --layout datasets
 
 Hai lệnh cập nhật `results/comparison.md` và `results/comparison.csv`; không train lại. Script báo lỗi nếu thiếu checkpoint của bất kỳ cấu hình nào.
 
-## 9. Web demo — CateEA / Match Lab
+## 9. Nguồn
 
-**Demo:** https://keiranoluv.github.io/Reproduce_CateEA/
-
-Demo tương tác gồm 48 cặp test JA–EN/ZH–EN, 6 câu hỏi và case **Hàm Nghi – Tự Đức**
-trong Appendix A.5 / Table 6. Có thể xem riêng kết quả paper và dự đoán tái lập
-thật từ các file đã lưu. Không cần checkpoint, GPU hoặc backend.
-
-```bash
-python -m http.server 4173 --directory demo
-```
-
-Mở http://localhost:4173. [Hướng dẫn, nguồn dữ liệu và giới hạn demo](demo/README.md).
-GitHub Actions kiểm tra rồi deploy thư mục `demo/` lên Pages khi push lên `main`,
-tương tự DSoM.
-
-## 10. Nguồn
-
-- [CateEA — COLING 2025](https://aclanthology.org/2025.coling-main.399/)
+- [CateEA (COLING 2025)](https://aclanthology.org/2025.coling-main.399/)
 - [Mã nguồn CateEA](https://github.com/Melkor0007/CateEA)
 - [Repository tái lập](https://github.com/keiranoluv/Reproduce_CateEA)
 - [W&B các lượt chạy đã lưu](https://forge.coreweave.com/wandb/keiranoluv-hcmus/cateea-reproduction?nw=nwuserkeiranoluv)
