@@ -20,7 +20,7 @@
   ],
   "coverage_input_sha256": {
     "demo/data/demo.json": "e566fa64c17e84e25c2379ed13a4b3d266ae834824e840d5b28f82c81e159aed",
-    "demo/index.html": "7dfa527bc140d0ca3982d0bbd807f3dbeb662323d08f20790f5729666464763a",
+    "demo/index.html": "781c41f8d6ae705ab63a88069cd31cab0b87b739758449b75ddaa3d71de4fceb",
     "demo/app.js": "a66adaedb0823830a3af3fc09ceb74d79457d9aac13d8623618920156eb27edf"
   },
   "unicode_count": 508,
