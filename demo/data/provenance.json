@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "exporter": "scripts/export_demo_data.py",
+  "paper": {
+    "url": "https://aclanthology.org/2025.coling-main.399.pdf#page=12",
+    "section": "Appendix A.5",
+    "table": 6,
+    "note": "Hàng 8853: nhãn PDF lỗi dấu được chuẩn hóa thành Tự Đức theo tên entity. Figure 6 minh họa case Hachisuka Narihiro."
+  },
+  "files": {
+    "data/DBP15K/ja_en/ent_ids_1": {
+      "sha256": "c0163c3e4d1a1173fde4941c6c3752e659ff54c50149fbe8776e10c78077f1ad",
+      "bytes": 1289100,
+      "lines": 19814
+    },
+    "data/DBP15K/ja_en/ent_ids_2": {
+      "sha256": "b6e8aa468861daa932f5bbb50c4743273418331839543de8889b13cc267a84a2",
+      "bytes": 1039183,
+      "lines": 19780
+    },
+    "outputs/table1/ja_en_noniter_woSF/pred.txt": {
+      "sha256": "0af9b9350c66205ab64144b976b361889e7cffb4bd23579104b018dc59b92278",
+      "bytes": 391361,
+      "lines": 10501
+    },
+    "outputs/table1/ja_en_noniter_woSF/pred_weighted.txt": {
+      "sha256": "ee94b9576df2066b4b8550747d3119f015077a0437ac399f0378fddacbedcdbd",
+      "bytes": 391271,
+      "lines": 10501
+    },
+    "outputs/table1/ja_en_noniter_wSF/pred.txt": {
+      "sha256": "5c30b737474233a045d4b88ac7a4bd984d610adf1765cf43644031dd6bd2551b",
+      "bytes": 390687,
+      "lines": 10501
+    },
+    "outputs/table1/ja_en_noniter_wSF/pred_weighted.txt": {
+      "sha256": "8b278915e43049ee9ade51ab8f73744ee19156d559aaaef7aed1d77e5a5c1d09",
+      "bytes": 390688,
+      "lines": 10501
+    },
+    "outputs/table2/ja_en_iter_woSF/pred.txt": {
+      "sha256": "7c49fda20cf02beeee8f6a30774c5bd91bbbe7bbe877861ae2715f3b1322bb56",
+      "bytes": 391037,
+      "lines": 10501
+    },
+    "outputs/table2/ja_en_iter_woSF/pred_weighted.txt": {
+      "sha256": "0fdb79af7432d98df7a46da8d487e53602e37f4b679eecdecd4bb8aee1d373c6",
+      "bytes": 391036,
+      "lines": 10501
+    },
+    "outputs/table2/ja_en_iter_wSF/pred.txt": {
+      "sha256": "beeb15a5905ac582060d2fff44f02124605605de00f4450530849b63e48f28c9",
+      "bytes": 390678,
+      "lines": 10501
+    },
+    "outputs/table2/ja_en_iter_wSF/pred_weighted.txt": {
+      "sha256": "4d9d8bdbd9caeb23872f36c34b2010fc29a61d1c41d7f4e4f42ddb62d8a7cc64",
+      "bytes": 390678,
+      "lines": 10501
+    },
+    "data/DBP15K/ja_en/ill_ent_ids": {
+      "sha256": "60edbd1d05d65e80cc81957eb6efa06fa53901a2a3042cfb0a115abccb2dff91",
+      "bytes": 168890,
+      "lines": 15000
+    },
+    "data/DBP15K/ja_en/triples_1": {
+      "sha256": "5c9396f4bc18f62f395bdea897228285be85f3590d89c336739877d7fc0eeae5",
+      "bytes": 1130201,
+      "lines": 77214
+    },
+    "data/DBP15K/ja_en/triples_2": {
+      "sha256": "aeb66ed5e3dd1588f4d7e2cae50bc930794dbc29063f71365242c924ae27c2d6",
+      "bytes": 1589228,
+      "lines": 93484
+    },
+    "data/DBP15K/ja_en/training_attrs_1": {
+      "sha256": "b98e28f0032a8d2a7547b71bfa9b91fe4a09944ba4fcfcb51d8b5c2c941f309d",
+      "bytes": 10704678,
+      "lines": 14999
+    },
+    "data/DBP15K/ja_en/training_attrs_2": {
+      "sha256": "64f8390e3379252ccdfd54300744374367f7d23e2ed5f33176b03c59f99815c3",
+      "bytes": 12640809,
+      "lines": 14999
+    },
+    "data/DBP15K/zh_en/ent_ids_1": {
+      "sha256": "6d230db7922b58f6fe31fb75b478d5edcbb3cc7d3f76763b5af8232ff1940082",
+      "bytes": 1065081,
+      "lines": 19388
+    },
+    "data/DBP15K/zh_en/ent_ids_2": {
+      "sha256": "68d7cccc5334881d386094df3e4f9af479eedf3161ed00ec4d06e0685d510f69",
+      "bytes": 1015460,
+      "lines": 19572
+    },
+    "outputs/table1/zh_en_noniter_woSF/pred.txt": {
+      "sha256": "e12890de214c02c3b22aa9fbc72169747c5acfa441a542c9aafaa263c8c1609f",
+      "bytes": 391319,
+      "lines": 10501
+    },
+    "outputs/table1/zh_en_noniter_woSF/pred_weighted.txt": {
+      "sha256": "71c570aa237e0bc5d7f45fe39228cb2f2ebbec9e0b388c45e893f63159b37cc6",
+      "bytes": 391335,
+      "lines": 10501
+    },
+    "outputs/table1/zh_en_noniter_wSF/pred.txt": {
+      "sha256": "3b8ec910275a1c97c27310be3ed42463957bded1fde85736942e12e7408497bb",
+      "bytes": 390774,
+      "lines": 10501
+    },
+    "outputs/table1/zh_en_noniter_wSF/pred_weighted.txt": {
+      "sha256": "0a5bdb1d3bba5957e3a99de7e6cbf98530de65523a252651b410eec145bab4ed",
+      "bytes": 390772,
+      "lines": 10501
+    },
+    "outputs/table2/zh_en_iter_woSF/pred.txt": {
+      "sha256": "ce0e02fc8c5e600fab4b9466699b3d10a3e7d6420acaf3c452aab8b6ca6bd321",
+      "bytes": 391300,
+      "lines": 10501
+    },
+    "outputs/table2/zh_en_iter_woSF/pred_weighted.txt": {
+      "sha256": "ac114274af5137b5a2e4d4dd9e2eb54e463a9ece420bd2c06fa366ef128d3584",
+      "bytes": 391302,
+      "lines": 10501
+    },
+    "outputs/table2/zh_en_iter_wSF/pred.txt": {
+      "sha256": "a369904abf67746655afbd98918a7f325a1ccbba29e38f0b2402492ddd611571",
+      "bytes": 390702,
+      "lines": 10501
+    },
+    "outputs/table2/zh_en_iter_wSF/pred_weighted.txt": {
+      "sha256": "016af1b1ee9378852bcaeed93e7b8074541c56d8b5ba620624f6b55a014a43b9",
+      "bytes": 390703,
+      "lines": 10501
+    },
+    "data/DBP15K/zh_en/ill_ent_ids": {
+      "sha256": "f6fc5f4b4c162eb21119697561b38686c48935222c11d07f08edc6efc5414507",
+      "bytes": 168890,
+      "lines": 15000
+    },
+    "data/DBP15K/zh_en/triples_1": {
+      "sha256": "5bd1df6af7b51a0bc1111809c980364455e42f2cc27946cd664861f0d95aafcb",
+      "bytes": 1036776,
+      "lines": 70414
+    },
+    "data/DBP15K/zh_en/triples_2": {
+      "sha256": "bbab07e5d97247221d742a7ab4e14c20ffdb3125667b2bac2b317a714a07bc48",
+      "bytes": 1617414,
+      "lines": 95142
+    },
+    "data/DBP15K/zh_en/training_attrs_1": {
+      "sha256": "5a66fe243408c2ed55c033ac4a97de71cdbe43ec2a5b52cd5ef5de69b383803c",
+      "bytes": 10380069,
+      "lines": 14999
+    },
+    "data/DBP15K/zh_en/training_attrs_2": {
+      "sha256": "c2a0369437d2168d6bb1351c019ced5665e6904610a1ea78b90479ef362f8b26",
+      "bytes": 13561566,
+      "lines": 15000
+    },
+    "demo/data/reproduction-metrics.csv": {
+      "sha256": "9d1964b464478e820d9aaec86ac8a93a8737e6fdc7985afa68befae5279e947e",
+      "bytes": 36743,
+      "lines": 49
+    }
+  },
+  "predictionEpoch": 999,
+  "rankBase": 1,
+  "notes": [
+    "Snapshot dự đoán cuối epoch, không chạy inference trong trình duyệt.",
+    "Mỗi top3 lấy từ toàn bộ 10.500 ứng viên test của cấu hình.",
+    "Không có điểm số trong pred.txt; demo chỉ dùng thứ hạng.",
+    "Relation IDs giữ nguyên vì dữ liệu local không kèm bảng tên quan hệ.",
+    "training_attrs chỉ lưu tên thuộc tính, không có giá trị.",
+    "Đồ thị ngữ cảnh không phải attribution nhân quả của mô hình.",
+    "Ảnh tư liệu bổ sung không được xác nhận là ảnh gốc tạo embedding."
+  ]
+}

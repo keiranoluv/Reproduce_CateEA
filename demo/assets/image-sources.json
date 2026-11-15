@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "purpose": "Supplementary historical portraits for the browser demo. These are not verified as the original images used to produce benchmark image embeddings.",
+  "images": [
+    {
+      "id": "ham-nghi",
+      "entity": "Hàm Nghi",
+      "author": "Unknown author",
+      "date": "circa 1890",
+      "license": "Public domain (PD-old; Wikimedia Commons)",
+      "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Ham_Nghi.jpg",
+      "source_revision": "https://commons.wikimedia.org/w/index.php?title=File:Ham_Nghi.jpg&oldid=1143821095",
+      "source_note": "Historical photograph of Hàm Nghi during his early exile; Commons cites Báo Thừa Thiên Huế / Amandine Dabat.",
+      "path": "assets/images/ham-nghi.webp",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Ham_Nghi.jpg",
+      "original_sha256": "2a8e0ab230cf8192425c9d159db586a618553b24ee50b1fc7644f2a2867d5b80",
+      "sha256": "f479dc44350f43f8188ff80a773c575dee2c6c3fdea7e4cbc5c88aa0e9aac267",
+      "original_dimensions": [
+        336,
+        448
+      ],
+      "dimensions": [
+        336,
+        448
+      ],
+      "changes": "Converted to WebP and proportionally resized; no crop, color change, or generated content.",
+      "attribution": "Hàm Nghi — Unknown author, circa 1890; Wikimedia Commons, public domain.",
+      "bytes": 6546
+    },
+    {
+      "id": "tu-duc",
+      "entity": "Tự Đức",
+      "author": "Unknown author",
+      "date": "19th century",
+      "license": "Public domain (PD-old-100; Wikimedia Commons)",
+      "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Tu_Duc.jpg",
+      "source_revision": "https://commons.wikimedia.org/w/index.php?title=File:Tu_Duc.jpg&oldid=942139021",
+      "source_note": "Historical portrait of Nguyễn Dực Tôn (Tự Đức); Commons cites Viettouch.",
+      "path": "assets/images/tu-duc.webp",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/86/Tu_Duc.jpg",
+      "original_sha256": "0ad1a505bb043d8c1915a5b3d8c8a4bc363c139e044858e22cf813e3e88e0881",
+      "sha256": "db11061fbce45e1c69c45a047329452b2a751a51ac693978e3ba6efbb36cd28b",
+      "original_dimensions": [
+        500,
+        630
+      ],
+      "dimensions": [
+        480,
+        605
+      ],
+      "changes": "Converted to WebP and proportionally resized; no crop, color change, or generated content.",
+      "attribution": "Tự Đức — Unknown author, 19th century; Wikimedia Commons, public domain.",
+      "bytes": 25012
+    },
+    {
+      "id": "bao-dai",
+      "entity": "Bảo Đại",
+      "path": "assets/images/bao-dai.webp",
+      "author": "Tang Vinh, Huê",
+      "date": "1928",
+      "license": "Public domain (PD-Vietnam; Wikimedia Commons)",
+      "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Bảo_Đại_au_pouvoir.jpg",
+      "source_note": "Historical photograph published in 1928; Wikimedia Commons lists Tang Vinh, Huê as author and Sa Majesté Bao Dai empereur d’Annam 1928 as source.",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/74/B%E1%BA%A3o_%C4%90%E1%BA%A1i_au_pouvoir.jpg",
+      "original_sha256": "dd31fbcef5460fb514ab25a1a130c4876024f66b1e402879db6993e594a1651b",
+      "sha256": "145bdc89b0fc665eb1d1e941db558ba5b515415bacef9cc557cc89c934137ad5",
+      "original_dimensions": [
+        485,
+        640
+      ],
+      "dimensions": [
+        480,
+        633
+      ],
+      "changes": "Converted to WebP and proportionally resized; no crop, color change, or generated content.",
+      "attribution": "Bảo Đại — Tang Vinh, Huê, 1928; Wikimedia Commons, public domain.",
+      "bytes": 55762
+    }
+  ]
+}

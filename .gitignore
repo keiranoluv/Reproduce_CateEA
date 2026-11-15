@@ -8,3 +8,6 @@ data/
 outputs/
 wandb/
 deprecated/
+!demo/data/
+!demo/data/*.json
+!demo/data/*.csv

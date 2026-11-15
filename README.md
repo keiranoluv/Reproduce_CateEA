@@ -175,7 +175,23 @@ wandb login
 
 Để tái lập nhất quán, giữ nguyên các tham số trong script, sử dụng đúng cấu trúc dữ liệu và thực thi từ thư mục gốc repository.
 
-## 5. Nguồn mã
+## 5. Web demo — CateEA / Match Lab
+
+**Demo:** https://keiranoluv.github.io/Reproduce_CateEA/
+
+Demo tương tác gồm 48 cặp test JA–EN/ZH–EN, 6 câu hỏi và case **Hàm Nghi – Tự Đức**
+trong Appendix A.5 / Table 6. Có thể xem riêng kết quả paper và dự đoán tái lập
+thật từ các file đã lưu. Không cần checkpoint, GPU hoặc backend.
+
+```bash
+python -m http.server 4173 --directory demo
+```
+
+Mở http://localhost:4173. [Hướng dẫn, nguồn dữ liệu và giới hạn demo](demo/README.md).
+GitHub Actions kiểm tra rồi deploy thư mục `demo/` lên Pages khi push lên `main`,
+tương tự DSoM.
+
+## 6. Nguồn mã
 
 - **Mã nguồn gốc:** https://github.com/Melkor0007/CateEA
 - **Repository tái lập:** https://github.com/keiranoluv/Reproduce_CateEA
