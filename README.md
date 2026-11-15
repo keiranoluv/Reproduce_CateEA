@@ -20,7 +20,7 @@ GitHub Actions kiểm tra và deploy thư mục `demo/` lên GitHub Pages khi pu
 
 Repository phục vụ tái lập thực nghiệm bài báo **CateEA: Enhancing Entity Alignment via Implicit Category Supervision (CateEA)**.
 
-Mã nguồn được kế thừa từ [CateEA của tác giả](https://github.com/Melkor0007/CateEA), bổ sung script tái lập và web demo tương tác. Các bảng kết quả tái lập nằm trong `results/`; phân tích thực nghiệm được trình bày trong báo cáo đồ án.
+Mã nguồn được kế thừa từ [CateEA của tác giả](https://github.com/Melkor0007/CateEA), bổ sung script tái lập và web demo tương tác. Các bảng kết quả tái lập và đối chiếu paper nằm trong `results/`.
 
 - [Paper](https://aclanthology.org/2025.coling-main.399/) · [Mã nguồn tác giả](https://github.com/Melkor0007/CateEA)
 - [Kết quả và so sánh với paper](results/comparison.md) · [Số liệu CSV](results/comparison.csv)
