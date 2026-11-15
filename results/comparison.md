@@ -1,6 +1,6 @@
-# CateEA — Kết quả tái lập và đối chiếu paper
+# CateEA: Kết quả tái lập và đối chiếu paper
 
-Nguồn tham chiếu: các dòng **CateEA** trong Table 1–4 của [paper COLING 2025](https://aclanthology.org/2025.coling-main.399.pdf).
+Nguồn tham chiếu: các dòng **CateEA** trong Table 1-4 của [paper COLING 2025](https://aclanthology.org/2025.coling-main.399.pdf).
 Chỉ tổng hợp số liệu và chênh lệch; chưa đưa ra nhận xét hay giải thích nguyên nhân.
 
 ## Quy ước
@@ -10,7 +10,7 @@ Chỉ tổng hợp số liệu và chênh lệch; chưa đưa ra nhận xét hay
 - `weighted` là `weighted_test`, có category weighting; không gộp hai cách đánh giá.
 - Các bảng dưới lấy `cateea_checkpoint_best.pt`: chọn theo **test H@1 trung bình** cao nhất trong các lần đánh giá, không chọn riêng theo weighted hay từng metric.
 - Epoch là chỉ số bắt đầu từ 0; epoch 999 tương ứng hoàn tất 1.000 epoch.
-- Δ = (tái lập − paper) × 100, đơn vị điểm trên thang 0–100 (pp). Tính trước khi làm tròn; paper có ba chữ số thập phân.
+- Δ = (tái lập − paper) × 100, đơn vị điểm trên thang 0-100 (pp). Tính trước khi làm tròn; paper có ba chữ số thập phân.
 - Đây là kết quả một seed cho mỗi cấu hình, không phải trung bình nhiều seed.
 - Quy ước trung bình hai chiều và chọn checkpoint trên là của repo; không giả định paper dùng cùng quy tắc chọn epoch/chiều đánh giá.
 

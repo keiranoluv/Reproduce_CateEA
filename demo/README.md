@@ -1,7 +1,7 @@
 # CateEA / Match Lab
 
 Web demo tĩnh, hướng dẫn tiếng Việt, gồm **48 cặp test** tuyển chọn từ DBP15K
-JA–EN/ZH–EN, **6 câu hỏi**, **4 góc nhìn** và **7 case được báo cáo trong Table 6**.
+JA-EN/ZH-EN, **6 câu hỏi**, **4 góc nhìn** và **7 case được báo cáo trong Table 6**.
 Chạy trong trình duyệt, không cần backend, checkpoint, GPU hay API key.
 
 **Bản online:** https://keiranoluv.github.io/Reproduce_CateEA/
@@ -18,7 +18,7 @@ Mở http://localhost:4173. Cần HTTP để tải JSON; không mở bằng `fil
 Đường dẫn tài nguyên là tương đối, có thể deploy nguyên `demo/` trên static
 hosting, kể cả GitHub Pages project subpath.
 
-## Case Hàm Nghi – Tự Đức
+## Case Hàm Nghi và Tự Đức
 
 Nguồn: [paper, Appendix A.5 / Table 6, trang 5986](https://aclanthology.org/2025.coling-main.399.pdf#page=12).
 Nguồn JA `8853` là `咸宜帝`, ghép chuẩn với EN `19353`, `Hàm_Nghi`.
@@ -48,7 +48,7 @@ ablation bỏ category khỏi huấn luyện. Bật/tắt SF và iterative chọ
   có nút **Nguồn / Ứng viên** để dành đủ chỗ đọc từng đồ thị; chọn ứng viên sẽ
   tự mở đồ thị đích. **Phóng to** mở cửa sổ riêng, có danh sách tên đầy đủ.
   Nhãn trong thẻ tự xuống dòng theo chiều rộng; bấm thẻ hoặc cạnh để đọc dữ kiện.
-- `data/demo.json`: snapshot phục vụ giao diện. Có 24 cặp JA–EN, 24 cặp ZH–EN,
+- `data/demo.json`: snapshot phục vụ giao diện. Có 24 cặp JA-EN, 24 cặp ZH-EN,
   các ứng viên, tối đa 4 nút lân cận mỗi thực thể chính, thuộc tính và nguồn hàng.
   Các nút ngữ cảnh bổ sung không được tính thành cặp tuyển chọn.
 - `data/provenance.json`: SHA256 file đầu vào, epoch và quy ước xuất dữ liệu.

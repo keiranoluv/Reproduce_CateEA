@@ -166,7 +166,7 @@ def export(root, destination):
                 "source": name_sources[entity_id], "neighbors": graph.get(entity_id, []),
                 "attributes": attrs.get(entity_id, {"properties": [], "total": 0}),
             }
-        result["datasets"].append({"id": lang, "label": "JA–EN" if lang == "ja_en" else "ZH–EN",
+        result["datasets"].append({"id": lang, "label": "JA-EN" if lang == "ja_en" else "ZH-EN",
                                    "sourceLanguage": "Nhật" if lang == "ja_en" else "Trung",
                                    "candidateCount": candidate_count, "pairs": pairs})
 

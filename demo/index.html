@@ -4,12 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f5f6f0" />
-    <meta name="description" content="Thử ghép cùng một thực thể giữa hai đồ thị. Khám phá case Hàm Nghi – Tự Đức trong paper CateEA và đối chiếu dự đoán tái lập thật." />
-    <title>CateEA / Match Lab — Khác tên. Cùng một thực thể.</title>
+    <meta name="description" content="Thử ghép cùng một thực thể giữa hai đồ thị. Khám phá case Hàm Nghi và Tự Đức trong paper CateEA và đối chiếu dự đoán tái lập thật." />
+    <title>CateEA / Match Lab: Khác tên. Cùng một thực thể.</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="styles.css?v=2" />
+    <link rel="stylesheet" href="styles.css?v=3" />
     <link rel="preload" href="assets/fonts/cjk-subset.woff2" as="font" type="font/woff2" crossorigin />
-    <script src="app.js?v=2" defer></script>
+    <script src="app.js?v=3" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#paper-case">Đến phần thử ghép</a>
@@ -51,7 +51,7 @@
             <div class="case-workbench">
               <div class="case-topbar"><div class="segmented case-tabs" role="group" aria-label="Chế độ xem case Hàm Nghi"><button type="button" data-case-view="play" aria-pressed="true">Bạn thử ghép</button><button type="button" data-case-view="paper" aria-pressed="false">Kết quả paper</button><button type="button" data-case-view="repo" aria-pressed="false">Bản tái lập</button></div><a class="source-link" href="https://aclanthology.org/2025.coling-main.399.pdf#page=12" target="_blank" rel="noopener noreferrer">A.5 · Table 6 ↗</a></div>
               <div id="case-content"></div>
-              <div class="case-bottom"><span>DBP15K JA–EN · Source entity #8853</span><span>Ảnh tư liệu bổ sung từ Wikimedia Commons</span></div>
+              <div class="case-bottom"><span>DBP15K JA-EN · Source entity #8853</span><span>Ảnh tư liệu bổ sung từ Wikimedia Commons</span></div>
             </div>
             <details class="paper-details"><summary>Xem cả 7 case trong Table 6 <span>+</span></summary><div class="table-scroll"><table><caption class="sr-only">Các dự đoán được báo cáo trong Table 6 của paper</caption><thead><tr><th>ID nguồn</th><th>Thực thể đúng</th><th>Không ICS</th><th>Có ICS</th><th></th></tr></thead><tbody id="paper-table"></tbody></table></div><p class="small-note">Tự Đức được chuẩn hóa từ nhãn lỗi dấu trong PDF theo tên entity. Figure 6 của paper minh họa case Hachisuka Narihiro. Table 6 không công bố điểm số hay nhãn category cho từng case.</p></details>
           </div>
@@ -60,7 +60,7 @@
         <section class="wrap section" id="lab" aria-labelledby="lab-title">
           <div class="section-heading"><div><p class="eyebrow section-number">02 / BÀN GHÉP CẶP</p><h2 id="lab-title">Hai đồ thị.<br />Một danh tính.</h2></div><p>Chọn một thực thể. Đối chiếu các ứng viên.<br />Mở từng nút để đọc dữ kiện gốc.</p></div>
           <div class="lab-shell">
-            <div class="lab-toolbar"><div class="segmented" id="dataset-tabs" role="group" aria-label="Bộ dữ liệu"><button data-dataset="ja_en" type="button" aria-pressed="true">JA–EN</button><button data-dataset="zh_en" type="button" aria-pressed="false">ZH–EN</button></div><label class="search-box"><span aria-hidden="true">⌕</span><span class="sr-only">Tìm thực thể</span><input id="entity-search" type="search" placeholder="Tìm Hàm Nghi, Paris, 咸宜帝…" autocomplete="off" /></label><span class="snapshot-tag"><span class="status-dot"></span> DỰ ĐOÁN ĐÃ LƯU</span></div>
+            <div class="lab-toolbar"><div class="segmented" id="dataset-tabs" role="group" aria-label="Bộ dữ liệu"><button data-dataset="ja_en" type="button" aria-pressed="true">JA-EN</button><button data-dataset="zh_en" type="button" aria-pressed="false">ZH-EN</button></div><label class="search-box"><span aria-hidden="true">⌕</span><span class="sr-only">Tìm thực thể</span><input id="entity-search" type="search" placeholder="Tìm Hàm Nghi, Paris, 咸宜帝…" autocomplete="off" /></label><span class="snapshot-tag"><span class="status-dot"></span> DỰ ĐOÁN ĐÃ LƯU</span></div>
             <div class="lab-body"><aside class="pair-sidebar" aria-label="Danh sách thực thể"><div class="sidebar-heading">THỰC THỂ NGUỒN <span id="pair-count"></span></div><div id="pair-list" class="pair-list"></div></aside><div class="lab-main"><div class="lab-settings"><label>Cấu hình <select id="lab-config"></select></label><label class="switch-label"><input id="weighting-toggle" type="checkbox" /><span class="switch" aria-hidden="true"></span>Category weighting</label></div><div id="lab-content"></div></div></div>
             <div class="lab-footer"><span>Thứ hạng trên 10.500 ứng viên test · Epoch cuối (999) · Chiều nguồn → đích</span><button type="button" id="snapshot-info" class="text-button">Đọc nguồn dữ liệu ↗</button></div>
           </div>

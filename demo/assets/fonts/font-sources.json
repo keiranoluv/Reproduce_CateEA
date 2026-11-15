@@ -19,9 +19,9 @@
     "demo/app.js"
   ],
   "coverage_input_sha256": {
-    "demo/data/demo.json": "e566fa64c17e84e25c2379ed13a4b3d266ae834824e840d5b28f82c81e159aed",
-    "demo/index.html": "781c41f8d6ae705ab63a88069cd31cab0b87b739758449b75ddaa3d71de4fceb",
-    "demo/app.js": "a66adaedb0823830a3af3fc09ceb74d79457d9aac13d8623618920156eb27edf"
+    "demo/data/demo.json": "cc796a8c8cf1e16d034e44b23f73c8042ecd1cf60bf12970d0a4e64eaa9ce2eb",
+    "demo/index.html": "203a5d3c5849d1c4d5969523e90dd5eaaef0beda1e1f8c175eed55129b30a90f",
+    "demo/app.js": "1f6b077506ff4ddb7a34fd78f8d0230d7907cd8c32403e716af44dec8ac1c2f8"
   },
   "unicode_count": 508,
   "unicodes": [

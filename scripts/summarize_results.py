@@ -1,4 +1,4 @@
-"""Compare all 24 CateEA configurations with Tables 1–4, without training.
+"""Compare all 24 CateEA configurations with Tables 1-4, without training.
 
 Only load locally trusted checkpoints: torch.load(weights_only=False) reads the
 metadata and NumPy scalars saved by this repository's training code.
@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PAPER_URL = "https://aclanthology.org/2025.coling-main.399.pdf"
 METRICS = ("h1", "h10", "mrr")
 
-# CateEA rows transcribed from the published PDF, Tables 1–4.
+# CateEA rows transcribed from the published PDF, Tables 1-4.
 # DBP15K order: woSF then wSF; within each: zh_en, ja_en, fr_en.
 # MMKB order: FBDB15K then FBYG15K; within each: 20%, 50%, 80%.
 PAPER = {
@@ -107,8 +107,8 @@ def write_report(rows, output_dir):
     best = [row for row in rows if row["checkpoint"] == "best"]
     latest = [row for row in rows if row["checkpoint"] == "latest"]
     lines = [
-        "# CateEA — Kết quả tái lập và đối chiếu paper", "",
-        f"Nguồn tham chiếu: các dòng **CateEA** trong Table 1–4 của [paper COLING 2025]({PAPER_URL}).",
+        "# CateEA: Kết quả tái lập và đối chiếu paper", "",
+        f"Nguồn tham chiếu: các dòng **CateEA** trong Table 1-4 của [paper COLING 2025]({PAPER_URL}).",
         "Chỉ tổng hợp số liệu và chênh lệch; chưa đưa ra nhận xét hay giải thích nguyên nhân.", "",
         "## Quy ước", "",
         "- Mỗi ô ba số có thứ tự **H@1 / H@10 / MRR**; giá trị nằm trong [0, 1].",
@@ -116,7 +116,7 @@ def write_report(rows, output_dir):
         "- `weighted` là `weighted_test`, có category weighting; không gộp hai cách đánh giá.",
         "- Các bảng dưới lấy `cateea_checkpoint_best.pt`: chọn theo **test H@1 trung bình** cao nhất trong các lần đánh giá, không chọn riêng theo weighted hay từng metric.",
         "- Epoch là chỉ số bắt đầu từ 0; epoch 999 tương ứng hoàn tất 1.000 epoch.",
-        "- Δ = (tái lập − paper) × 100, đơn vị điểm trên thang 0–100 (pp). Tính trước khi làm tròn; paper có ba chữ số thập phân.",
+        "- Δ = (tái lập − paper) × 100, đơn vị điểm trên thang 0-100 (pp). Tính trước khi làm tròn; paper có ba chữ số thập phân.",
         "- Đây là kết quả một seed cho mỗi cấu hình, không phải trung bình nhiều seed.",
         "- Quy ước trung bình hai chiều và chọn checkpoint trên là của repo; không giả định paper dùng cùng quy tắc chọn epoch/chiều đánh giá.", "",
         "## Cấu hình đọc từ checkpoint", "",
